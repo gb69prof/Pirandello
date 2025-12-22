@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pirandello — Visione del mondo</title>
+  <title>Pirandello — L’Umorismo</title>
+
   <style>
     :root{
       --bg:#0f141a;
@@ -87,7 +88,6 @@
       border:1px solid var(--stroke);
       box-shadow:0 14px 40px rgba(0,0,0,.20);
       backdrop-filter:blur(10px);
-      /* IMPORTANT: non tagliare contenuti sotto */
       overflow:visible;
     }
     .side-inner{padding:12px;}
@@ -99,26 +99,23 @@
       background:rgba(0,0,0,.18);
     }
 
-    /* area media (foto/video) */
     .media-frame{
       position:relative;
       width:100%;
-      height:340px;              /* altezza fissa: evita “mangiare” l’indice */
+      height:340px;
       background:rgba(0,0,0,.35);
       overflow:hidden;
     }
-
-    /* FOTO: DEVE VEDERSI TUTTA */
     .media-frame img{
       width:100%;
       height:100%;
-      object-fit:contain;        /* <<< QUI: niente tagli */
+      object-fit:contain;
       object-position:center;
       display:block;
       cursor:pointer;
       user-select:none;
       -webkit-user-drag:none;
-      background:#0b0f14;        /* bande laterali eleganti */
+      background:#0b0f14;
     }
 
     .media-frame .overlay{
@@ -160,7 +157,6 @@
     }
     .mini-btn:hover{background:rgba(255,255,255,.14);}
 
-    /* VIDEO: STESSA FINESTRA, STESSA GRANDEZZA */
     .heygen{
       position:absolute; inset:0;
       display:none;
@@ -185,7 +181,7 @@
       letter-spacing:.8px;
     }
 
-    /* INDICE: SEMPRE VISIBILE */
+    /* INDICE */
     .index{
       background:var(--panel2);
       border:1px solid var(--stroke2);
@@ -202,7 +198,11 @@
     }
     .index a:first-child{border-top:0;}
     .index a:hover{background:rgba(255,255,255,.06);}
-    .index small{color:rgba(255,255,255,.60); font-size:12px;}
+    .index .sub{
+      padding-left:28px;
+      font-size:13px;
+      color:rgba(255,255,255,.86);
+    }
 
     /* RIGHT PAGES */
     .pages{display:grid; grid-template-columns:1fr; gap:14px;}
@@ -232,10 +232,97 @@
     }
     .page h1{margin:0 0 10px; font-size:28px;}
     .page h2{margin:18px 0 8px; font-size:20px;}
+    .page p{margin:0 0 14px;}
 
     figure.inline-media{margin:12px 0 16px; border:1px solid rgba(18,22,28,.10); border-radius:14px; overflow:hidden; background:#f8fafc;}
     figure.inline-media img{width:100%; height:auto; display:block; cursor:zoom-in;}
     figure.inline-media figcaption{font-family:var(--sans); font-size:12px; color:#394455; padding:8px 10px; border-top:1px solid rgba(18,22,28,.08); background:#fff;}
+
+    .note{
+      font-family:var(--sans);
+      font-size:13px;
+      line-height:1.45;
+      color:#1a2430;
+      border-left:3px solid rgba(43,124,255,.55);
+      background:rgba(43,124,255,.08);
+      padding:10px 12px;
+      border-radius:12px;
+      margin:12px 0 16px;
+    }
+
+    /* ====== Schema Umorismo (contenuto, non cambia il template) ====== */
+    .humor-title{
+      text-align:center;
+      font-weight:700;
+      font-size:28px;
+      margin: 2px 0 14px;
+      letter-spacing:.3px;
+    }
+    .humor-frame{
+      border-radius:16px;
+      border:1px solid rgba(18,22,28,.10);
+      background: linear-gradient(180deg, #fff, #fbfbfb);
+      padding:14px;
+      margin: 10px 0 16px;
+    }
+    .humor-top{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      align-items:start;
+    }
+    .humor-box{
+      border-radius:14px;
+      border:2px solid rgba(199,147,58,.55);
+      background:#fffdf7;
+      overflow:hidden;
+    }
+    .humor-box .hb-head{
+      font-family:var(--sans);
+      font-weight:800;
+      text-align:center;
+      padding:10px 10px 8px;
+      color:#7a5618;
+      background:linear-gradient(180deg, rgba(199,147,58,.18), rgba(199,147,58,.06));
+      border-bottom:1px solid rgba(18,22,28,.08);
+    }
+    .humor-box .hb-body{
+      padding:12px 12px 14px;
+      font-size:17px;
+      line-height:1.55;
+      color:#1c2430;
+    }
+    .humor-down{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 0 8px;
+      color:#c06b18;
+      font-weight:900;
+      font-size:24px;
+      user-select:none;
+    }
+    .humor-bottom{
+      border-color:rgba(184,75,58,.58);
+      background:#fff6f3;
+    }
+    .humor-bottom .hb-head{
+      color:#8f2f27;
+      background:linear-gradient(180deg, rgba(184,75,58,.18), rgba(184,75,58,.06));
+    }
+    .humor-embed{
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid rgba(18,22,28,.10);
+      background:#0b1220;
+      margin: 0 0 10px;
+    }
+    .humor-embed iframe{
+      width:100%;
+      aspect-ratio:16/9;
+      border:0;
+      display:block;
+    }
 
     /* POPUP IMMAGINI */
     .pop{
@@ -338,6 +425,7 @@
       input[type="range"]{width:140px;}
       .notes{right:14px; bottom:14px; width:calc(100vw - 28px);}
       .media-frame{height:320px;}
+      .humor-top{grid-template-columns:1fr;}
     }
   </style>
 </head>
@@ -345,11 +433,11 @@
 <body>
   <header>
     <div class="crumb">
-      <a href="" title="Home (da definire)">Home</a>
+      <a href="index.html" title="Home">Home</a>
       <span class="sep">→</span>
       <span style="font-weight:700;">Pirandello</span>
       <span class="sep">→</span>
-      <span>Visione del mondo</span>
+      <span>L’Umorismo</span>
     </div>
 
     <div class="toolbar">
@@ -396,12 +484,18 @@
           </div>
         </div>
 
-        <!-- INDICE: SUBITO SOTTO LA FOTO (sempre) -->
+        <!-- INDICE (link ai file nel root) -->
         <div class="side-title">Indice</div>
         <nav class="index" aria-label="Indice">
-          <a href="#sintesi">La visione del mondo <small>(inizio)</small></a>
-          <a href="#vocabolario">Vocabolario <small>(termini chiave)</small></a>
-          <a href="#irrinunciabili">Saperi irrinunciabili <small>(check)</small></a>
+          <a href="Umorismo.html">L’Umorismo</a>
+          <a href="Novelle.html">Le novelle</a>
+          <a href="Romanzi.html">I romanzi</a>
+          <a class="sub" href="Mattia.html">– Il fu Mattia Pascal</a>
+          <a class="sub" href="Uno.html">– Uno, nessuno e centomila</a>
+          <a href="Teatro.html">Il teatro</a>
+          <a class="sub" href="Cosi.html">– Così è (se vi pare)</a>
+          <a class="sub" href="Sei.html">– Sei personaggi in cerca d’autore</a>
+          <a href="Conclusione.html">Conclusione</a>
         </nav>
 
       </div>
@@ -409,68 +503,131 @@
 
     <!-- DESTRA -->
     <main class="pages" id="pages">
+
+      <!-- PAGINA 1 -->
       <article class="page" id="page1">
         <div class="page-inner">
-          <section id="sintesi">
-            <h1>La visione del mondo</h1>
+          <h1>L’umorismo</h1>
 
-            <p>Le opere di Pirandello si fondano su un presupposto filosofico: il vitalismo di Bergson. Secondo questa concezione, la vita è un divenire incessante, un flusso continuo di trasformazioni. Ogni essere passa da uno stato all’altro e chi tenta di sottrarsi a questo movimento perenne, fissandosi in una forma immobile, si condanna alla morte interiore.</p>
-            <figure class="inline-media">
-              <img class="thumb" src="assets/Filosofia-Pirandello.png" alt="Concezione filosofica" data-title="Concezione filosofica — vitalismo e flusso">
-              <figcaption>Concezione filosofica — vitalismo e flusso</figcaption>
-            </figure>
+          <div class="note">
+            Per Pirandello il comico è una scintilla immediata. L’umorismo nasce un attimo dopo, quando la riflessione entra e cambia il significato di ciò che hai appena riso.
+          </div>
 
-            <p>Da tale visione nasce uno dei temi centrali della sua opera: l’incomunicabilità. L’uomo europeo del primo Novecento vive in una società complessa, artificiale e spesso estranea. Ha perduto le certezze legate al mondo contadino, fatto di ritmi naturali e di cose semplici che davano senso all’esistenza, sostituendole con un tempo e uno spazio innaturali, propri della modernità.</p>
-            <figure class="inline-media">
-              <img class="thumb" src="assets/Realta-Pirandello.png" alt="La realtà è multiforme" data-title="La realtà è multiforme → incomunicabilità">
-              <figcaption>La realtà è multiforme → incomunicabilità</figcaption>
-            </figure>
+          <div class="humor-title">Schema (come nella lezione)</div>
 
-            <p>Pirandello estende la sua critica alle strutture portanti della civiltà occidentale. La famiglia diventa luogo di incomunicabilità e rancori; il lavoro si riduce a meccanismo alienante che priva l’uomo della propria identità. Così, i pilastri della società borghese si rivelano maschere collettive che nascondono il vuoto.</p>
-            <figure class="inline-media">
-              <img class="thumb" src="assets/Societa-Pirandello.png" alt="Pirandello e la società borghese" data-title="Società borghese: famiglia e lavoro come maschere">
-              <figcaption>Società borghese: famiglia e lavoro come maschere</figcaption>
-            </figure>
-          </section>
+          <div class="humor-frame">
+            <div class="humor-top">
+              <!-- IMMAGINE: QUI VIDEO YOUTUBE (come richiesto) -->
+              <section class="humor-box">
+                <div class="hb-head">Immagine</div>
+                <div class="hb-body">
+                  <div class="humor-embed">
+                    <iframe
+                      src="https://www.youtube.com/embed/s5cgx1ypTsE?si=zeXks9kiL_dUXPaB"
+                      title="YouTube video player"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerpolicy="strict-origin-when-cross-origin"
+                      allowfullscreen>
+                    </iframe>
+                  </div>
+                  <p style="margin:0;">
+                    Una vecchia signora coi capelli tinti e tutta imbellettata.
+                  </p>
+                </div>
+              </section>
+
+              <!-- AVVERTIMENTO -->
+              <section class="humor-box">
+                <div class="hb-head">Avvertimento del contrario</div>
+                <div class="hb-body">
+                  <p style="margin:0 0 10px;">
+                    È il contrario di ciò che una vecchia signora dovrebbe essere.
+                  </p>
+                  <p style="margin:0;">
+                    La percezione del contrasto fa nascere il riso: questo è il <strong>comico</strong>.
+                  </p>
+                </div>
+              </section>
+            </div>
+
+            <div class="humor-down">⬇</div>
+
+            <!-- SENTIMENTO -->
+            <section class="humor-box humor-bottom">
+              <div class="hb-head">Sentimento del contrario</div>
+              <div class="hb-body">
+                <p style="margin:0 0 10px;">
+                  <strong>Interviene la riflessione</strong> e suggerisce che quella signora forse soffre.
+                  Forse si illude che, parata così, possa trattenere l’amore del marito più giovane.
+                </p>
+                <p style="margin:0;">
+                  A questo punto non posso più ridere come prima:
+                  dall’avvertimento (comico) passo al <strong>sentimento del contrario</strong> (umoristico).
+                </p>
+              </div>
+            </section>
+          </div>
+
+          <figure class="inline-media">
+            <img class="thumb" src="assets/Umorismo-Pirandello.jpeg.png" alt="Schema dell’umorismo" data-title="Schema dell’umorismo (mappa)" />
+            <figcaption>Schema dell’umorismo (clic → zoom/pan)</figcaption>
+          </figure>
         </div>
       </article>
 
+      <!-- PAGINA 2 -->
       <article class="page" id="page2">
         <div class="page-inner">
-          <p>L’individuo si scopre frammentato: per gli altri è centomila personalità, mentre per sé stesso non è che nessuno. Ogni tentativo di fissarsi in una forma diventa una nuova maschera. È questo il destino comune: uscire dal grigiore quotidiano per scoprire di essere esclusi — condannati a restare “nessuno”.</p>
+          <h2>Spiegazione</h2>
+
+          <p>
+            Pirandello distingue nettamente il <strong>comico</strong> dall’<strong>umoristico</strong>.
+            Il comico è un riflesso: scatta appena noti un’incongruenza, e ridi.
+            L’umorismo, invece, è un secondo tempo: arriva quando la mente, quasi controvoglia, comincia a chiedersi
+            che cosa c’è dietro quell’incongruenza.
+          </p>
+
+          <p>
+            Nel celebre esempio della vecchia signora imbellettata, il primo moto è la risata:
+            “è il contrario di ciò che dovrebbe essere”.
+            Ma se la riflessione interviene, la scena cambia volto.
+            Quella donna può essere una persona che soffre, che tenta disperatamente di non essere “scartata”,
+            che cerca di trattenere una relazione che la sta abbandonando.
+          </p>
 
           <figure class="inline-media">
-            <img class="thumb" src="assets/Conseguenze-Pirandello.png" alt="Conseguenze dell’incomunicabilità" data-title="Conseguenze: solitudine e scoperta del ‘nessuno’">
-            <figcaption>Conseguenze: solitudine e scoperta del “nessuno”</figcaption>
+            <img class="thumb" src="assets/IMG_3697.jpeg" alt="Maschere teatrali" data-title="Maschere: identità e ruoli" />
+            <figcaption>Maschere: identità e ruoli (clic → zoom/pan)</figcaption>
           </figure>
 
-          <figure class="inline-media">
-            <img class="thumb" src="assets/Mondo-Pirandello.png" alt="Schema: visione del mondo" data-title="Schema: la visione del mondo (mappa)">
-            <figcaption>Schema: la visione del mondo (mappa)</figcaption>
-          </figure>
+          <div class="note">
+            L’umorismo è uno smascheramento: non ti lascia ridere tranquillo. Ti costringe a vedere il dolore dove prima vedevi soltanto il ridicolo.
+          </div>
 
-          <section id="vocabolario">
-            <h2>Vocabolario dei termini chiave</h2>
-            <ul>
-              <li><strong>Vitalismo di Bergson:</strong> concezione filosofica secondo cui la vita è un flusso incessante di trasformazioni; ogni tentativo di fissarla in forme statiche conduce alla morte interiore.</li>
-              <li><strong>Flusso perenne:</strong> la vita come movimento continuo, divenire senza sosta.</li>
-              <li><strong>Incomunicabilità:</strong> impossibilità di comprendersi pienamente: ogni coscienza abita una realtà soggettiva.</li>
-              <li><strong>Maschere sociali:</strong> ruoli imposti dalla società che soffocano l’autenticità dell’individuo.</li>
-              <li><strong>Uno, nessuno e centomila:</strong> formula della condizione moderna: uno per sé, centomila per gli altri, e in fondo nessuno.</li>
-            </ul>
-          </section>
+          <h2>Testo (nucleo dell’esempio)</h2>
+          <p>
+            Vedo una vecchia signora, coi capelli ritinti e tutta goffamente imbellettata. Mi metto a ridere:
+            avverto che quella vecchia signora è il contrario di ciò che una vecchia signora dovrebbe essere.
+            Questo è il comico: un avvertimento del contrario.
+          </p>
+          <p>
+            Ma se interviene la riflessione e mi suggerisce che quella vecchia signora forse ne soffre,
+            e lo fa soltanto perché pietosamente s’inganna che, così parata, nascondendo rughe e canizie,
+            riesca a trattenere a sé l’amore del marito molto più giovane, ecco che io non posso più riderne come prima.
+            La riflessione mi ha fatto passare dall’avvertimento del contrario al <strong>sentimento del contrario</strong>.
+          </p>
 
-          <section id="irrinunciabili">
-            <h2>Saperi irrinunciabili</h2>
-            <ol>
-              <li>Per Pirandello la vita è flusso: fissarsi in una forma significa “morire” dentro.</li>
-              <li>L’incomunicabilità nasce dalla frantumazione della realtà in prospettive soggettive.</li>
-              <li>Famiglia e lavoro diventano maschere che imprigionano, non rifugi che proteggono.</li>
-              <li>La persona è molteplice: “centomila” per gli altri, “nessuno” per sé.</li>
-            </ol>
-          </section>
+          <h2>Saperi irrinunciabili</h2>
+          <ol>
+            <li>Il comico è un primo tempo: percezione immediata del contrasto.</li>
+            <li>L’umorismo è un secondo tempo: la riflessione cambia il significato della scena.</li>
+            <li>“Avvertimento del contrario” → riso; “sentimento del contrario” → compassione.</li>
+            <li>L’umorismo pirandelliano smaschera le maschere sociali e la fragilità umana.</li>
+          </ol>
         </div>
       </article>
+
     </main>
   </div>
 
@@ -513,18 +670,6 @@
   </section>
 
   <script>
-    // ====== INDICE ======
-    document.querySelectorAll('.index a').forEach(a=>{
-      a.addEventListener('click',(e)=>{
-        const href=a.getAttribute('href');
-        if(!href || !href.startsWith('#')) return;
-        const target=document.querySelector(href);
-        if(!target) return;
-        e.preventDefault();
-        target.scrollIntoView({behavior:'smooth', block:'start'});
-      });
-    });
-
     // ====== 2 PAGINE ======
     const pages=document.getElementById('pages');
     const toggleTwo=document.getElementById('toggleTwo');
@@ -651,7 +796,7 @@
     popResize.addEventListener('pointerup',()=>presize.active=false);
     popResize.addEventListener('pointercancel',()=>presize.active=false);
 
-    // ====== VIDEO FOTO ↔ VIDEO ======
+    // ====== VIDEO FOTO ↔ VIDEO (stesso riquadro) ======
     const authorImg = document.getElementById('authorImg');
     const heygenWrap = document.getElementById('heygenWrap');
     const heygenIframe = document.getElementById('heygenIframe');
@@ -667,7 +812,6 @@
       authorImg.style.visibility = "hidden";
       mediaState.textContent = "video";
     }
-
     function showImage(){
       heygenIframe.src = "";
       heygenWrap.style.display = "none";
@@ -675,7 +819,6 @@
       authorImg.style.visibility = "visible";
       mediaState.textContent = "foto";
     }
-
     authorImg.addEventListener('click', showVideo);
     backToImg.addEventListener('click', showImage);
 
@@ -731,7 +874,7 @@
       const a=document.createElement('a');
       const stamp=new Date().toISOString().slice(0,19).replace(/[:T]/g,'-');
       a.href=URL.createObjectURL(blob);
-      a.download=`Pirandello-appunti-${stamp}.txt`;
+      a.download=`Umorismo-appunti-${stamp}.txt`;
       document.body.appendChild(a);
       a.click();
       setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 0);
@@ -745,15 +888,17 @@
       notesText.focus();
     });
 
+    // POSIZIONE APPUNTI (QUI IL FIX REALE)
     const savedPos=localStorage.getItem(POS_KEY);
     if(savedPos){
       try{
         const p=JSON.parse(savedPos);
         if(typeof p.left==='number') notesWin.style.left=p.left+'px';
-        if(typeof p.top==='number') notesWin.style.top=p.top+'px';
+        if(typeof p.top==='number')  notesWin.style.top =p.top +'px';   // ✅ FIX
         notesWin.style.right='auto'; notesWin.style.bottom='auto';
       }catch{}
     }
+
     let ndrag={active:false, startX:0, startY:0, startLeft:0, startTop:0};
     notesDrag.addEventListener('pointerdown',(e)=>{
       ndrag.active=true;
