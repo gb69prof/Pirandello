@@ -12,7 +12,6 @@
       --stroke:rgba(255,255,255,.16);
       --stroke2:rgba(255,255,255,.12);
       --text:#e8edf5;
-      --muted:rgba(255,255,255,.70);
 
       --paper:#ffffff;
       --ink:#12161c;
@@ -75,7 +74,7 @@
       padding:16px 14px 22px;
       box-sizing:border-box;
       display:grid;
-      grid-template-columns:300px 1fr;
+      grid-template-columns:320px 1fr;
       gap:14px;
       align-items:start;
     }
@@ -88,7 +87,8 @@
       border:1px solid var(--stroke);
       box-shadow:0 14px 40px rgba(0,0,0,.20);
       backdrop-filter:blur(10px);
-      overflow:hidden;
+      /* IMPORTANT: non tagliare contenuti sotto */
+      overflow:visible;
     }
     .side-inner{padding:12px;}
 
@@ -103,24 +103,30 @@
     .media-frame{
       position:relative;
       width:100%;
-      aspect-ratio: 4 / 3;         /* coerente, sempre stessa “grandezza” */
-      background:rgba(0,0,0,.22);
+      height:340px;              /* altezza fissa: evita “mangiare” l’indice */
+      background:rgba(0,0,0,.35);
       overflow:hidden;
     }
+
+    /* FOTO: DEVE VEDERSI TUTTA */
     .media-frame img{
-      width:100%; height:100%;
-      object-fit:cover;
+      width:100%;
+      height:100%;
+      object-fit:contain;        /* <<< QUI: niente tagli */
+      object-position:center;
       display:block;
       cursor:pointer;
       user-select:none;
       -webkit-user-drag:none;
+      background:#0b0f14;        /* bande laterali eleganti */
     }
+
     .media-frame .overlay{
-      position:absolute; inset:0;
+      position:absolute; inset:auto 0 0 0;
       display:flex; align-items:flex-end; justify-content:space-between;
       padding:10px;
       pointer-events:none;
-      background:linear-gradient(to top, rgba(0,0,0,.55), transparent 55%);
+      background:linear-gradient(to top, rgba(0,0,0,.60), transparent 70%);
       color:#fff;
       font-size:12px;
       font-family:var(--sans);
@@ -133,6 +139,7 @@
       border:1px solid rgba(255,255,255,.18);
       backdrop-filter:blur(8px);
     }
+
     .media-actions{
       position:absolute;
       top:10px; right:10px;
@@ -153,6 +160,7 @@
     }
     .mini-btn:hover{background:rgba(255,255,255,.14);}
 
+    /* VIDEO: STESSA FINESTRA, STESSA GRANDEZZA */
     .heygen{
       position:absolute; inset:0;
       display:none;
@@ -169,9 +177,29 @@
     .author-meta strong{display:block; font-size:14px;}
     .author-meta span{color:rgba(255,255,255,.68); font-size:12px;}
 
-    .side-title{margin:12px 2px 8px; font-size:13px; color:rgba(255,255,255,.78); text-transform:uppercase; letter-spacing:.8px;}
-    .index{background:var(--panel2); border:1px solid var(--stroke2); border-radius:14px; overflow:hidden;}
-    .index a{display:block; padding:10px 12px; color:rgba(255,255,255,.92); text-decoration:none; font-size:14px; border-top:1px solid rgba(255,255,255,.08);}
+    .side-title{
+      margin:12px 2px 8px;
+      font-size:13px;
+      color:rgba(255,255,255,.78);
+      text-transform:uppercase;
+      letter-spacing:.8px;
+    }
+
+    /* INDICE: SEMPRE VISIBILE */
+    .index{
+      background:var(--panel2);
+      border:1px solid var(--stroke2);
+      border-radius:14px;
+      overflow:hidden;
+    }
+    .index a{
+      display:block;
+      padding:10px 12px;
+      color:rgba(255,255,255,.92);
+      text-decoration:none;
+      font-size:14px;
+      border-top:1px solid rgba(255,255,255,.08);
+    }
     .index a:first-child{border-top:0;}
     .index a:hover{background:rgba(255,255,255,.06);}
     .index small{color:rgba(255,255,255,.60); font-size:12px;}
@@ -204,13 +232,12 @@
     }
     .page h1{margin:0 0 10px; font-size:28px;}
     .page h2{margin:18px 0 8px; font-size:20px;}
-    .page h3{margin:16px 0 6px; font-size:18px;}
 
     figure.inline-media{margin:12px 0 16px; border:1px solid rgba(18,22,28,.10); border-radius:14px; overflow:hidden; background:#f8fafc;}
     figure.inline-media img{width:100%; height:auto; display:block; cursor:zoom-in;}
     figure.inline-media figcaption{font-family:var(--sans); font-size:12px; color:#394455; padding:8px 10px; border-top:1px solid rgba(18,22,28,.08); background:#fff;}
 
-    /* POPUP IMMAGINI (solo immagini del testo) */
+    /* POPUP IMMAGINI */
     .pop{
       position:fixed; left:50%; top:50%;
       transform:translate(-50%,-50%);
@@ -310,6 +337,7 @@
       .pages.two{grid-template-columns:1fr;}
       input[type="range"]{width:140px;}
       .notes{right:14px; bottom:14px; width:calc(100vw - 28px);}
+      .media-frame{height:320px;}
     }
   </style>
 </head>
@@ -317,7 +345,6 @@
 <body>
   <header>
     <div class="crumb">
-      <!-- HOME VUOTO: lo decidi tu -->
       <a href="" title="Home (da definire)">Home</a>
       <span class="sep">→</span>
       <span style="font-weight:700;">Pirandello</span>
@@ -333,13 +360,12 @@
   </header>
 
   <div class="wrap">
-    <!-- COLONNA SINISTRA -->
+    <!-- SINISTRA -->
     <aside class="sidebar">
       <div class="side-inner">
 
         <div class="author-card" aria-label="Autore e video">
           <div class="media-frame" id="mediaFrame">
-            <!-- FOTO -->
             <img id="authorImg" src="assets/Pirandello-ritratto.png" alt="Pirandello (clicca per video)" />
 
             <div class="overlay">
@@ -347,7 +373,6 @@
               <span class="badge" id="mediaState">foto</span>
             </div>
 
-            <!-- VIDEO (stessa finestra dell'immagine) -->
             <div class="heygen" id="heygenWrap" aria-hidden="true">
               <div class="media-actions">
                 <button class="mini-btn" id="backToImg" type="button">Torna alla foto</button>
@@ -355,6 +380,8 @@
               <iframe
                 id="heygenIframe"
                 src=""
+                width="560"
+                height="315"
                 title="HeyGen video player"
                 frameborder="0"
                 allow="encrypted-media; fullscreen;"
@@ -365,10 +392,11 @@
 
           <div class="author-meta">
             <strong>Luigi Pirandello</strong>
-            <span>video integrato nel riquadro della foto</span>
+            <span>foto intera (senza tagli) • video nello stesso riquadro</span>
           </div>
         </div>
 
+        <!-- INDICE: SUBITO SOTTO LA FOTO (sempre) -->
         <div class="side-title">Indice</div>
         <nav class="index" aria-label="Indice">
           <a href="#sintesi">La visione del mondo <small>(inizio)</small></a>
@@ -379,9 +407,8 @@
       </div>
     </aside>
 
-    <!-- COLONNA DESTRA -->
+    <!-- DESTRA -->
     <main class="pages" id="pages">
-      <!-- PAGINA 1 -->
       <article class="page" id="page1">
         <div class="page-inner">
           <section id="sintesi">
@@ -408,7 +435,6 @@
         </div>
       </article>
 
-      <!-- PAGINA 2 -->
       <article class="page" id="page2">
         <div class="page-inner">
           <p>L’individuo si scopre frammentato: per gli altri è centomila personalità, mentre per sé stesso non è che nessuno. Ogni tentativo di fissarsi in una forma diventa una nuova maschera. È questo il destino comune: uscire dal grigiore quotidiano per scoprire di essere esclusi — condannati a restare “nessuno”.</p>
@@ -448,7 +474,7 @@
     </main>
   </div>
 
-  <!-- POPUP SOLO IMMAGINI DEL TESTO -->
+  <!-- POPUP IMMAGINI -->
   <div class="pop" id="imgPop" role="dialog" aria-modal="true" aria-label="Immagine">
     <div class="pop-top" id="popDrag">
       <div class="pop-title" id="popTitle">Immagine</div>
@@ -517,7 +543,7 @@
       document.querySelectorAll('.page-inner').forEach(el=>el.style.fontSize=px+'px');
     });
 
-    // ====== POPUP IMMAGINI DEL TESTO ======
+    // ====== POPUP IMMAGINI ======
     const imgPop=document.getElementById('imgPop');
     const popDrag=document.getElementById('popDrag');
     const popResize=document.getElementById('popResize');
@@ -625,7 +651,7 @@
     popResize.addEventListener('pointerup',()=>presize.active=false);
     popResize.addEventListener('pointercancel',()=>presize.active=false);
 
-    // ====== VIDEO IN-PLACE (foto ↔ video nello stesso riquadro) ======
+    // ====== VIDEO FOTO ↔ VIDEO ======
     const authorImg = document.getElementById('authorImg');
     const heygenWrap = document.getElementById('heygenWrap');
     const heygenIframe = document.getElementById('heygenIframe');
@@ -635,16 +661,14 @@
     const HEYGEN_SRC = "https://app.heygen.com/embedded-player/70ac565e14cd4e8b83052dc76434961e";
 
     function showVideo(){
-      // carica solo quando serve
       if(!heygenIframe.src) heygenIframe.src = HEYGEN_SRC;
       heygenWrap.style.display = "block";
       heygenWrap.setAttribute("aria-hidden","false");
-      authorImg.style.visibility = "hidden"; // occupa spazio ma “sparisce”
+      authorImg.style.visibility = "hidden";
       mediaState.textContent = "video";
     }
 
     function showImage(){
-      // per “fermarsi” davvero: svuoto src (stop) e lo rimetto al click successivo
       heygenIframe.src = "";
       heygenWrap.style.display = "none";
       heygenWrap.setAttribute("aria-hidden","true");
@@ -655,22 +679,18 @@
     authorImg.addEventListener('click', showVideo);
     backToImg.addEventListener('click', showImage);
 
-    // Tentativo di ritorno automatico:
-    // Funziona SOLO se HeyGen invia postMessage con eventi tipo "ended"/"complete".
     window.addEventListener("message", (event) => {
-      // Non posso garantire origin “stabile” senza doc HeyGen: quindi controllo solo contenuto.
       try{
         const data = event.data;
         const str = typeof data === "string" ? data.toLowerCase() : "";
         const obj = (typeof data === "object" && data) ? JSON.stringify(data).toLowerCase() : "";
-
         if(str.includes("ended") || str.includes("complete") || obj.includes("ended") || obj.includes("complete")){
           showImage();
         }
       }catch(e){}
     });
 
-    // ====== APPUNTI (autosave) ======
+    // ====== APPUNTI ======
     const toggleNotes=document.getElementById('toggleNotes');
     const notesWin=document.getElementById('notesWin');
     const notesDrag=document.getElementById('notesDrag');
@@ -725,7 +745,6 @@
       notesText.focus();
     });
 
-    // notes drag position (persist)
     const savedPos=localStorage.getItem(POS_KEY);
     if(savedPos){
       try{
@@ -761,15 +780,12 @@
     });
     notesDrag.addEventListener('pointercancel', ()=>ndrag.active=false);
 
-    // ESC chiude popup immagini + torna alla foto se video aperto
     window.addEventListener('keydown',(e)=>{
       if(e.key==='Escape'){
-        if(imgPop.classList.contains('open')) closeImagePop();
-        // se sei in video, ESC torna alla foto
+        if(imgPop.classList.contains('open')) imgPop.classList.remove('open');
         if(mediaState.textContent === "video") showImage();
       }
     });
   </script>
 </body>
 </html>
-
