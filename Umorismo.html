@@ -1,1 +1,219 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pirandello — Poetica dell’Umorismo</title>
+
+  <style>
+    /* === TEMPLATE INVARIATO === */
+    :root{
+      --bg:#0f141a;
+      --paper:#ffffff;
+      --ink:#12161c;
+      --muted:#5b6676;
+      --shadow: 0 14px 40px rgba(0,0,0,.28);
+      --radius: 18px;
+      --accent:#2b7cff;
+      --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      --mono: ui-monospace, Menlo, Consolas, monospace;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background: var(--bg);
+      color:#e8edf5;
+      font-family: var(--sans);
+    }
+    .app{
+      max-width:1180px;
+      margin:0 auto;
+      padding:18px;
+      display:grid;
+      grid-template-rows:auto 1fr;
+      gap:14px;
+    }
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .toolbar{display:flex; gap:10px; flex-wrap:wrap;}
+    .btn{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+      color:#fff;
+      padding:8px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      font-size:13px;
+    }
+    .spread{display:grid; grid-template-columns:1fr; gap:16px;}
+    .spread.two{grid-template-columns:1fr 1fr;}
+    .page{
+      background:var(--paper);
+      color:var(--ink);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      min-height:560px;
+      position:relative;
+    }
+    .page-inner{
+      padding:32px 34px 38px;
+      font-family:var(--serif);
+      font-size:18px;
+      line-height:1.65;
+    }
+    h1{font-size:28px; margin:0 0 12px;}
+    h2{font-size:22px; margin:24px 0 10px;}
+    p{margin:0 0 14px;}
+    .note{
+      font-family:var(--sans);
+      font-size:13px;
+      background:rgba(43,124,255,.08);
+      border-left:3px solid rgba(43,124,255,.6);
+      padding:10px 12px;
+      border-radius:12px;
+      margin:14px 0;
+    }
+    figure.float-media{
+      float:right;
+      width:min(44%,360px);
+      margin:6px 0 12px 14px;
+      border-radius:14px;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.1);
+      background:#fff;
+    }
+    figure.float-media img{width:100%; display:block; cursor:zoom-in;}
+    figure.float-media figcaption{
+      font-family:var(--sans);
+      font-size:12px;
+      padding:8px 10px;
+      background:#f8f8f8;
+    }
+    @media(max-width:900px){
+      .spread.two{grid-template-columns:1fr;}
+      figure.float-media{float:none; width:100%; margin:10px 0;}
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+
+<header>
+  <div>
+    <strong>Pirandello — Poetica</strong><br>
+    <span style="font-size:12px;color:#aaa">L’umorismo</span>
+  </div>
+  <div class="toolbar">
+    <button class="btn" onclick="document.getElementById('spread').classList.toggle('two')">
+      ↔ Vista 2 pagine
+    </button>
+  </div>
+</header>
+
+<main>
+<div class="spread" id="spread">
+
+<!-- PAGINA 1 -->
+<article class="page">
+<div class="page-inner">
+
+<h1>La poetica dell’umorismo</h1>
+
+<figure class="float-media">
+  <img src="assets/Umorismo-Pirandello.jpeg.png" alt="Schema dell'umorismo pirandelliano">
+  <figcaption>
+    <strong>Avvertimento</strong> e <strong>sentimento del contrario</strong>
+  </figcaption>
+</figure>
+
+<p>
+Pirandello non è soltanto un pensatore filosofico o sociologico: è, prima di tutto, uno scrittore.
+Il suo pensiero prende forma in una <em>poetica</em>, e questa poetica ha un nome preciso:
+<strong>l’umorismo</strong>.
+</p>
+
+<p>
+Per spiegarla, Pirandello propone un esempio diventato celebre:
+una donna anziana che si veste come se fosse ancora giovane.
+A un primo sguardo la scena fa sorridere.
+</p>
+
+<p>
+Questo primo moto è ciò che Pirandello chiama
+<strong>avvertimento del contrario</strong>:
+la percezione immediata di un contrasto tra ciò che è
+e ciò che, secondo le convenzioni, dovrebbe essere.
+Qui nasce il <em>comico</em>.
+</p>
+
+<div class="note">
+Il comico si ferma alla superficie: vede il contrasto e ride.
+</div>
+
+</div>
+</article>
+
+<!-- PAGINA 2 -->
+<article class="page">
+<div class="page-inner">
+
+<figure class="float-media">
+  <img src="assets/IMG_3697.jpeg" alt="Maschere e teatro">
+  <figcaption>
+    Maschera, ruolo, identità
+  </figcaption>
+</figure>
+
+<h2>Dal comico all’umoristico</h2>
+
+<p>
+Ma Pirandello non si arresta al riso.
+Invita a <strong>pensare</strong>.
+Se interviene la riflessione, la domanda cambia:
+<em>perché</em> quella donna si comporta così?
+</p>
+
+<p>
+Forse soffre. Forse è stata abbandonata.
+Forse si aggrappa all’illusione di poter trattenere
+l’amore di un marito più giovane.
+</p>
+
+<p>
+A questo punto non si ride più.
+Il riso si spegne, lascia spazio a qualcosa di diverso:
+<strong>il sentimento del contrario</strong>.
+</p>
+
+<p>
+Ciò che appariva ridicolo si rivela tragico.
+La comicità si rovescia in compassione.
+</p>
+
+<div class="note">
+L’umorismo è un rovesciamento dello sguardo:
+non distrugge l’uomo, ma lo smaschera nella sua fragilità.
+</div>
+
+<p>
+Per Pirandello l’arte non deve soltanto divertire.
+Deve rivelare la verità nascosta dietro le maschere,
+mostrare l’inquietudine che si annida nelle forme
+che la società impone agli individui.
+</p>
+
+</div>
+</article>
+
+</div>
+</main>
+</div>
+</body>
+</html>
 
