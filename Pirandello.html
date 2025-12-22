@@ -87,7 +87,6 @@
       border:1px solid var(--stroke);
       box-shadow:0 14px 40px rgba(0,0,0,.20);
       backdrop-filter:blur(10px);
-      /* IMPORTANT: non tagliare contenuti sotto */
       overflow:visible;
     }
     .side-inner{padding:12px;}
@@ -103,7 +102,7 @@
     .media-frame{
       position:relative;
       width:100%;
-      height:340px;              /* altezza fissa: evita “mangiare” l’indice */
+      height:340px;
       background:rgba(0,0,0,.35);
       overflow:hidden;
     }
@@ -112,13 +111,13 @@
     .media-frame img{
       width:100%;
       height:100%;
-      object-fit:contain;        /* <<< QUI: niente tagli */
+      object-fit:contain;
       object-position:center;
       display:block;
       cursor:pointer;
       user-select:none;
       -webkit-user-drag:none;
-      background:#0b0f14;        /* bande laterali eleganti */
+      background:#0b0f14;
     }
 
     .media-frame .overlay{
@@ -185,7 +184,6 @@
       letter-spacing:.8px;
     }
 
-    /* INDICE: SEMPRE VISIBILE */
     .index{
       background:var(--panel2);
       border:1px solid var(--stroke2);
@@ -202,7 +200,6 @@
     }
     .index a:first-child{border-top:0;}
     .index a:hover{background:rgba(255,255,255,.06);}
-    .index small{color:rgba(255,255,255,.60); font-size:12px;}
 
     /* RIGHT PAGES */
     .pages{display:grid; grid-template-columns:1fr; gap:14px;}
@@ -377,11 +374,13 @@
               <div class="media-actions">
                 <button class="mini-btn" id="backToImg" type="button">Torna alla foto</button>
               </div>
+
+              <!-- ✅ iframe COME LO HAI DATO TU (src già scritto qui) -->
               <iframe
                 id="heygenIframe"
-                src=""
                 width="560"
                 height="315"
+                src="https://app.heygen.com/embedded-player/70ac565e14cd4e8b83052dc76434961e"
                 title="HeyGen video player"
                 frameborder="0"
                 allow="encrypted-media; fullscreen;"
@@ -526,8 +525,7 @@
     document.querySelectorAll('.index a').forEach(a=>{
       a.addEventListener('click',(e)=>{
         const href=a.getAttribute('href');
-        // solo hash interni: gli altri (file html) devono aprirsi normalmente
-        if(!href || !href.startsWith('#')) return;
+        if(!href || !href.startsWith('#')) return; // i file .html aprono normalmente
         const target=document.querySelector(href);
         if(!target) return;
         e.preventDefault();
@@ -661,17 +659,20 @@
     popResize.addEventListener('pointerup',()=>presize.active=false);
     popResize.addEventListener('pointercancel',()=>presize.active=false);
 
-    // ====== VIDEO FOTO ↔ VIDEO ======
+    // ====== VIDEO FOTO ↔ VIDEO (iframe come da tuo snippet) ======
     const authorImg = document.getElementById('authorImg');
     const heygenWrap = document.getElementById('heygenWrap');
     const heygenIframe = document.getElementById('heygenIframe');
     const backToImg = document.getElementById('backToImg');
     const mediaState = document.getElementById('mediaState');
 
-    const HEYGEN_SRC = "https://app.heygen.com/embedded-player/70ac565e14cd4e8b83052dc76434961e";
+    // memorizzo il src "vero" (quello del tuo iframe) e spengo inizialmente per non caricare/partire da solo
+    const HEYGEN_REAL_SRC = heygenIframe.getAttribute('src');
+    heygenIframe.dataset.src = HEYGEN_REAL_SRC;
+    heygenIframe.src = "about:blank";
 
     function showVideo(){
-      if(!heygenIframe.src) heygenIframe.src = HEYGEN_SRC;
+      heygenIframe.src = heygenIframe.dataset.src;   // riattivo il src originale
       heygenWrap.style.display = "block";
       heygenWrap.setAttribute("aria-hidden","false");
       authorImg.style.visibility = "hidden";
@@ -679,7 +680,8 @@
     }
 
     function showImage(){
-      heygenIframe.src = "";
+      // spengo per fermare audio/video
+      heygenIframe.src = "about:blank";
       heygenWrap.style.display = "none";
       heygenWrap.setAttribute("aria-hidden","true");
       authorImg.style.visibility = "visible";
@@ -689,6 +691,7 @@
     authorImg.addEventListener('click', showVideo);
     backToImg.addEventListener('click', showImage);
 
+    // se HeyGen manda un messaggio di "fine", torno alla foto
     window.addEventListener("message", (event) => {
       try{
         const data = event.data;
