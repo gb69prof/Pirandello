@@ -1,164 +1,1041 @@
 <!doctype html>
 <html lang="it">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Pirandello – Poetica dell’Umorismo</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pirandello — Poetica: L’umorismo</title>
+  <style>
+    :root{
+      --bg:#0f141a;
+      --paper:#ffffff;
+      --ink:#12161c;
+      --muted:#5b6676;
+      --shadow: 0 14px 40px rgba(0,0,0,.28);
+      --radius: 18px;
+      --accent:#2b7cff;
+      --danger:#ff4d4d;
+      --ok:#39d98a;
+      --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background: radial-gradient(1100px 800px at 20% 10%, rgba(43,124,255,.18), transparent 60%),
+                  radial-gradient(1100px 800px at 85% 15%, rgba(139,92,246,.18), transparent 55%),
+                  var(--bg);
+      color:#e8edf5;
+      font-family: var(--sans);
+    }
 
-<style>
-:root{
-  --bg:#0f141a;
-  --paper:#ffffff;
-  --ink:#12161c;
-  --shadow:0 14px 40px rgba(0,0,0,.28);
-  --radius:18px;
-  --accent:#c78b2e;
-  --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
-  --sans: ui-sans-serif, system-ui;
-}
-body{
-  margin:0;
-  background:var(--bg);
-  color:#e8edf5;
-  font-family:var(--sans);
-}
-.app{
-  max-width:1180px;
-  margin:0 auto;
-  padding:18px;
-}
-.spread{display:grid;grid-template-columns:1fr;}
-.spread.two{grid-template-columns:1fr 1fr;}
-.page{
-  background:var(--paper);
-  color:var(--ink);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  min-height:560px;
-}
-.page-inner{
-  padding:34px;
-  font-family:var(--serif);
-  font-size:18px;
-  line-height:1.65;
-}
-h1{
-  text-align:center;
-  font-size:30px;
-  margin-bottom:28px;
-}
+    .app{
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 18px;
+      box-sizing: border-box;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 14px;
+      min-height: 100%;
+    }
 
-/* === SCHEMA UMORISMO === */
-.schema{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:24px;
-  align-items:start;
-}
-.box{
-  border:2px solid var(--accent);
-  padding:16px;
-  border-radius:14px;
-  background:#fffdf8;
-}
-.box h2{
-  margin-top:0;
-  font-size:20px;
-  text-align:center;
-  color:#7a4f12;
-}
-.freccia{
-  text-align:center;
-  font-size:28px;
-  margin:10px 0;
-  color:#c46a1c;
-}
-.sentimento{
-  margin-top:22px;
-  border:3px solid #b84b3a;
-  background:#fff6f3;
-}
-.sentimento h2{
-  color:#b84b3a;
-}
-.video-box iframe{
-  width:100%;
-  aspect-ratio:16/9;
-  border-radius:12px;
-  border:none;
-}
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .brand{display:flex; flex-direction:column; line-height:1.1;}
+    .brand strong{font-size:14px;}
+    .brand span{font-size:12px; color: rgba(232,237,245,.72);}
 
-@media(max-width:900px){
-  .schema{grid-template-columns:1fr;}
-}
-</style>
+    .toolbar{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+
+    .btn{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: #f4f7ff;
+      padding: 9px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      font-size: 13px;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:hover{ background: rgba(255,255,255,.10); }
+    .btn[aria-pressed="true"]{
+      background: rgba(43,124,255,.18);
+      border-color: rgba(43,124,255,.35);
+    }
+
+    .pill{
+      display:flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.14);
+      font-size: 12px;
+    }
+    input[type="range"]{ width: 160px; }
+
+    /* --- Book layout --- */
+    .spread{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+    .spread.two{ grid-template-columns: 1fr 1fr; }
+
+    .page{
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(18,22,28,.08);
+      overflow: hidden;
+      position: relative;
+      min-height: 560px;
+    }
+    .page::before{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(90deg, rgba(0,0,0,.06), transparent 20%, transparent 80%, rgba(0,0,0,.06));
+      opacity:.22;
+      pointer-events:none;
+    }
+    .page[data-side="left"]::after{
+      content:"";
+      position:absolute; top:0; bottom:0; right:0;
+      width: 26px;
+      background: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,.12));
+      opacity:.55;
+      pointer-events:none;
+    }
+    .page[data-side="right"]::after{
+      content:"";
+      position:absolute; top:0; bottom:0; left:0;
+      width: 26px;
+      background: linear-gradient(90deg, rgba(0,0,0,.12), rgba(0,0,0,0));
+      opacity:.55;
+      pointer-events:none;
+    }
+
+    .page-inner{
+      padding: 32px 34px 38px;
+      position: relative;
+      z-index: 1;
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1.65;
+    }
+    .page h1{ margin:0 0 10px; font-size: 26px; }
+    .page h2{ margin:18px 0 10px; font-size: 20px; }
+    .meta{
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--muted);
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .page p{ margin: 0 0 14px; }
+
+    .note{
+      font-family: var(--sans);
+      font-size: 13px;
+      line-height: 1.45;
+      color: #1a2430;
+      border-left: 3px solid rgba(43,124,255,.55);
+      background: rgba(43,124,255,.08);
+      padding: 10px 12px;
+      border-radius: 12px;
+      margin: 12px 0 16px;
+    }
+
+    /* “Incastro”: immagine flottante nel flusso */
+    figure.float-media{
+      float: right;
+      width: min(44%, 360px);
+      margin: 6px 0 12px 14px;
+      border: 1px solid rgba(18,22,28,.10);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #f8fafc;
+    }
+    figure.float-media figcaption{
+      font-family: var(--sans);
+      font-size: 12px;
+      color: #394455;
+      padding: 8px 10px;
+      border-top: 1px solid rgba(18,22,28,.08);
+      background: #fff;
+    }
+    .thumb{
+      display:block;
+      width:100%;
+      height:auto;
+      cursor: zoom-in;
+    }
+
+    /* Video box responsive (già nel template) */
+    .video-box{
+      margin: 14px 0 6px;
+      border-radius: 14px;
+      overflow:hidden;
+      border: 1px solid rgba(18,22,28,.10);
+      background:#0b1220;
+    }
+    .video-box iframe{
+      width:100%;
+      aspect-ratio: 16/9;
+      border:0;
+      display:block;
+    }
+
+    /* ====== STILI CONTENUTO: schema “L’umorismo” (solo contenuti) ====== */
+    .humor-title{
+      text-align:center;
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 28px;
+      margin: 6px 0 16px;
+      letter-spacing:.3px;
+    }
+    .humor-frame{
+      border-radius: 16px;
+      border: 1px solid rgba(18,22,28,.10);
+      background: linear-gradient(180deg, #fff, #fbfbfb);
+      padding: 14px;
+    }
+    .humor-top{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+    .humor-box{
+      border-radius: 14px;
+      border: 2px solid rgba(199,147,58,.55);
+      background: #fffdf7;
+      overflow: hidden;
+    }
+    .humor-box .hb-head{
+      font-family: var(--sans);
+      font-weight: 800;
+      text-align:center;
+      padding: 10px 10px 8px;
+      color: #7a5618;
+      background: linear-gradient(180deg, rgba(199,147,58,.18), rgba(199,147,58,.06));
+      border-bottom: 1px solid rgba(18,22,28,.08);
+    }
+    .humor-box .hb-body{
+      padding: 12px 12px 14px;
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1.55;
+      color: #1c2430;
+    }
+    .humor-arrow{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 0 2px;
+      color: #c06b18;
+      font-family: var(--sans);
+      font-weight: 700;
+      gap: 10px;
+      user-select:none;
+    }
+    .humor-arrow .hline{
+      height: 3px;
+      background: rgba(192,107,24,.45);
+      border-radius: 99px;
+      flex: 1;
+      max-width: 180px;
+    }
+    .humor-down{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 0 8px;
+      color: #c06b18;
+      font-weight: 900;
+      font-size: 24px;
+      user-select:none;
+    }
+    .humor-bottom{
+      margin-top: 10px;
+      border-color: rgba(184,75,58,.58);
+      background: #fff6f3;
+    }
+    .humor-bottom .hb-head{
+      color:#8f2f27;
+      background: linear-gradient(180deg, rgba(184,75,58,.18), rgba(184,75,58,.06));
+    }
+    .humor-bottom .hb-body{
+      font-size: 17px;
+    }
+    .humor-embed{
+      border-radius: 12px;
+      overflow:hidden;
+      border: 1px solid rgba(18,22,28,.10);
+      background:#0b1220;
+      margin: 10px 0 10px;
+    }
+    .humor-embed iframe{
+      width: 100%;
+      aspect-ratio: 16/9;
+      border: 0;
+      display:block;
+    }
+
+    .quote{
+      border-left: 4px solid rgba(43,124,255,.35);
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(43,124,255,.06);
+      margin: 12px 0 16px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .small{
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Modal zoom/pan (invariato) */
+    .modal{
+      position: fixed;
+      inset: 0;
+      background: rgba(10,12,16,.68);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index: 50;
+      padding: 18px;
+    }
+    .modal.open{ display:flex; }
+
+    .modal-card{
+      width: min(1100px, 100%);
+      height: min(760px, 92vh);
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      backdrop-filter: blur(10px);
+      display:grid;
+      grid-template-rows: auto 1fr;
+    }
+    .modal-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,.25);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+    .modal-top .title{
+      font-size: 13px;
+      color: rgba(255,255,255,.92);
+      font-family: var(--sans);
+    }
+    .modal-actions{ display:flex; gap: 8px; flex-wrap: wrap; justify-content:flex-end; }
+    .iconbtn{
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor:pointer;
+      font-size: 12px;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .iconbtn:hover{ background: rgba(255,255,255,.12); }
+
+    .stage{
+      position: relative;
+      overflow: hidden;
+      background: rgba(255,255,255,.06);
+      touch-action: none;
+    }
+    .zoomable{
+      position:absolute;
+      left:50%; top:50%;
+      transform: translate(-50%,-50%) scale(1);
+      transform-origin: center;
+      cursor: grab;
+      max-width: none;
+      width: 1200px;
+      height: auto;
+      user-select: none;
+      -webkit-user-drag: none;
+      border-radius: 14px;
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      touch-action: none;
+    }
+    .zoomable:active{ cursor: grabbing; }
+
+    .pager-hint{
+      margin-top: 10px;
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: rgba(232,237,245,.75);
+    }
+
+    /* =========================
+       Finestra Appunti flottante
+       ========================= */
+    .notes-window{
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: min(520px, calc(100vw - 44px));
+      height: 320px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      backdrop-filter: blur(10px);
+      z-index: 80;
+      display: none;
+      overflow: hidden;
+    }
+    .notes-window.open{ display: grid; grid-template-rows: auto 1fr auto; }
+
+    .notes-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,.25);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      cursor: grab;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .notes-top:active{ cursor: grabbing; }
+
+    .notes-title{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .notes-title strong{
+      font-size: 13px;
+      color: rgba(255,255,255,.92);
+      font-family: var(--sans);
+      letter-spacing:.2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .notes-title span{
+      font-size: 11px;
+      color: rgba(255,255,255,.70);
+      font-family: var(--sans);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .notes-actions{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+      flex-shrink:0;
+    }
+
+    .notes-body{
+      padding: 10px 12px;
+      background: rgba(255,255,255,.06);
+    }
+    .notes-text{
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      resize: none;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.20);
+      color: rgba(255,255,255,.92);
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.45;
+      padding: 10px 12px;
+      outline: none;
+    }
+    .notes-text::placeholder{ color: rgba(255,255,255,.55); }
+
+    .notes-bottom{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border-top: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      font-family: var(--sans);
+      font-size: 12px;
+      color: rgba(255,255,255,.75);
+    }
+    .status-dot{
+      display:inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: rgba(255,255,255,.45);
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    .status-dot.ok{ background: rgba(57,217,138,.9); }
+    .status-dot.warn{ background: rgba(255,220,60,.9); }
+    .status-dot.err{ background: rgba(255,77,77,.9); }
+
+    @media (max-width: 980px){
+      .spread.two{ grid-template-columns: 1fr; }
+      figure.float-media{ float:none; width: 100%; margin: 8px 0 14px; }
+      input[type="range"]{ width: 140px; }
+      .notes-window{ right: 14px; bottom: 14px; width: calc(100vw - 28px); }
+      .humor-top{ grid-template-columns: 1fr; }
+      .humor-arrow{ display:none; }
+    }
+  </style>
 </head>
 
 <body>
-<div class="app">
-<div class="spread" id="spread">
-<article class="page">
-<div class="page-inner">
+  <div class="app">
+    <header>
+      <div class="brand">
+        <strong>Pirandello — Poetica</strong>
+        <span>L’umorismo (schema + testo vivo + appunti)</span>
+      </div>
 
-<h1>L’umorismo</h1>
+      <div class="toolbar">
+        <button class="btn" id="toggleTwo" aria-pressed="false">↔︎ Vista 2 pagine</button>
 
-<div class="schema">
+        <div class="pill" title="Dimensione del testo">
+          A− <input id="font" type="range" min="15" max="24" value="18" /> A+
+        </div>
 
-  <!-- SINISTRA: IMMAGINE / VIDEO -->
-  <div class="box">
-    <h2>Immagine</h2>
-    <div class="video-box">
-      <iframe
-        src="https://www.youtube.com/embed/s5cgx1ypTsE?si=zeXks9kiL_dUXPaB"
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen>
-      </iframe>
+        <button class="btn" id="prev">◀︎ Pagina 1</button>
+        <button class="btn" id="next">Pagina 2 ▶︎</button>
+
+        <button class="btn" id="toggleNotes" aria-pressed="false" title="Apri/chiudi appunti">
+          📝 Appunti
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <div class="spread" id="spread">
+        <!-- PAGINA 1 -->
+        <article class="page" data-side="left" id="page1" aria-label="Pagina 1">
+          <div class="page-inner">
+            <div class="humor-title">L’umorismo</div>
+
+            <div class="humor-frame">
+
+              <div class="humor-top">
+                <!-- BOX: IMMAGINE (QUI: VIDEO come richiesto) -->
+                <section class="humor-box">
+                  <div class="hb-head">Immagine</div>
+                  <div class="hb-body">
+                    <div class="humor-embed" aria-label="Video Pirandello (YouTube)">
+                      <iframe
+                        src="https://www.youtube.com/embed/s5cgx1ypTsE?si=zeXks9kiL_dUXPaB"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen>
+                      </iframe>
+                    </div>
+                    <p style="margin:10px 0 0;">
+                      Una vecchia signora coi capelli tinti e tutta imbellettata.
+                    </p>
+                  </div>
+                </section>
+
+                <!-- BOX: AVVERTIMENTO DEL CONTRARIO -->
+                <section class="humor-box">
+                  <div class="hb-head">Avvertimento del contrario</div>
+                  <div class="hb-body">
+                    <p style="margin:0 0 10px;">
+                      È il contrario di ciò che una vecchia signora “dovrebbe essere”.
+                    </p>
+                    <p style="margin:0;">
+                      È una percezione immediata del contrasto tra ciò che è e ciò che dovrebbe essere:
+                      nasce il riso, cioè il <strong>comico</strong>.
+                    </p>
+                  </div>
+                </section>
+              </div>
+
+              <div class="humor-arrow" aria-hidden="true">
+                <div class="hline"></div>
+                <div>→</div>
+                <div class="hline"></div>
+              </div>
+
+              <div class="humor-down" aria-hidden="true">⬇</div>
+
+              <!-- BOX: SENTIMENTO DEL CONTRARIO -->
+              <section class="humor-box humor-bottom">
+                <div class="hb-head">Sentimento del contrario</div>
+                <div class="hb-body">
+                  <p style="margin:0 0 10px;">
+                    <strong>Interviene la riflessione</strong> e suggerisce che quella donna forse soffre.
+                    Forse si illude che, nascondendo rughe e canizie, possa trattenere l’amore del marito più giovane.
+                  </p>
+                  <p style="margin:0;">
+                    A questo punto il riso non regge più: dal comico passo all’umoristico.
+                    Dall’avvertimento del contrario passo al <strong>sentimento del contrario</strong>.
+                  </p>
+                </div>
+              </section>
+
+            </div>
+
+            <div class="note">
+              Questo schema non è una “definizione”: è un meccanismo. Prima ridi, poi pensi. E quando pensi davvero, il riso cambia natura.
+            </div>
+
+          </div>
+        </article>
+
+        <!-- PAGINA 2 -->
+        <article class="page" data-side="right" id="page2" aria-label="Pagina 2">
+          <div class="page-inner">
+            <h1>La poetica dell’umorismo</h1>
+            <div class="meta">
+              <span>Distinzione: comico / umoristico</span>
+              <span>Chiave: riflessione</span>
+              <span>Esito: compassione</span>
+            </div>
+
+            <figure class="float-media">
+              <img class="thumb"
+                   src="assets/IMG_3697.jpeg"
+                   alt="Maschere teatrali (clicca per zoom)"
+                   onclick="openZoom(this.src)" />
+              <figcaption><strong>Maschere</strong> — identità, ruoli, apparenze.</figcaption>
+            </figure>
+
+            <p>
+              Pirandello non è soltanto un pensatore filosofico e sociologico: è, prima di tutto, uno scrittore e un artista.
+              Il suo pensiero si traduce dunque in una poetica precisa, quella dell’umorismo.
+            </p>
+
+            <p>
+              Per chiarirla, Pirandello propone un celebre esempio: una donna anziana che si veste come se fosse ancora giovane.
+              A prima vista la scena fa sorridere: è il cosiddetto <strong>avvertimento del contrario</strong>,
+              ossia la percezione immediata di un contrasto tra ciò che è e ciò che dovrebbe essere. Questo meccanismo costituisce la base del comico.
+            </p>
+
+            <p>
+              Ma Pirandello non si ferma qui. Egli invita ad andare oltre il semplice riso e a cogliere il <strong>sentimento del contrario</strong>.
+              Osservando più a fondo, ci si chiede: perché quella donna si comporta così?
+              Forse perché è stata abbandonata dal marito e, nel disperato tentativo di riconquistarlo, cerca di assumere un’altra personalità?
+            </p>
+
+            <p>
+              In questo caso, dietro la comicità, si svela una verità dolorosa: la solitudine, la sofferenza, la perdita della propria identità.
+              La donna, nel tentativo di apparire diversa, diventa “nessuno”.
+            </p>
+
+            <div class="note">
+              L’umorismo è il rovesciamento dello sguardo: dall’apparenza superficiale alla realtà intima.
+              Ciò che sembrava ridicolo diventa tragico. Pirandello insegna così che l’arte non deve solo divertire,
+              ma rivelare la dimensione nascosta e dolorosa dell’esistenza.
+            </div>
+
+            <h2>Brano: <span class="small">Luigi Pirandello, <em>L’umorismo</em></span></h2>
+
+            <div class="quote">
+              Vedo una vecchia signora, coi capelli ritinti, tutti unti non si sa di quale orribile manteca, e poi tutta goffamente imbellettata e parata d’abiti giovanili.
+              <br><br>
+              Mi metto a ridere. Avverto che quella vecchia signora è il contrario di ciò che una vecchia rispettabile signora dovrebbe essere.
+              Posso così, a prima giunta e superficialmente, arrestarmi a questa impressione comica.
+              Il comico è appunto un avvertimento del contrario.
+              <br><br>
+              Ma se ora interviene in me la riflessione, e mi suggerisce che quella vecchia signora non prova forse nessun piacere a pararsi così come un pappagallo,
+              ma che forse ne soffre e lo fa soltanto perché pietosamente s’inganna che, parata così, nascondendo così le rughe e la canizie,
+              riesca a trattenere a sé l’amore del marito molto più giovane di lei, ecco che io non posso più riderne come prima.
+              <br><br>
+              Perché appunto la riflessione, lavorando in me, mi ha fatto andar oltre a quel primo avvertimento, o piuttosto, più addentro:
+              da quel primo avvertimento del contrario mi ha fatto passare a questo sentimento del contrario.
+              Ed è tutta qui la differenza tra il comico e l’umoristico.
+            </div>
+
+            <h2>Vocabolario dei termini chiave</h2>
+            <ul style="margin:0 0 14px; padding-left: 18px;">
+              <li><strong>Umorismo</strong>: cogliere la dimensione nascosta e dolorosa dietro l’apparenza comica.</li>
+              <li><strong>Avvertimento del contrario</strong>: percezione immediata del contrasto; genera il riso.</li>
+              <li><strong>Sentimento del contrario</strong>: riflessione successiva che svela il dolore dietro il ridicolo.</li>
+              <li><strong>Comicità</strong>: reazione immediata davanti a una situazione incongrua.</li>
+              <li><strong>Tragicomico</strong>: intreccio di comico e tragico; il riso si rovescia in compassione.</li>
+              <li><strong>Caricatura</strong>: ridicolo superficiale che non vede la profondità drammatica.</li>
+              <li><strong>Verità nascosta</strong>: ciò che si cela dietro le maschere; l’umorismo la svela.</li>
+            </ul>
+
+            <h2>Saperi irrinunciabili</h2>
+            <ol style="margin:0; padding-left: 18px;">
+              <li>L’umorismo è la traduzione artistica del pensiero pirandelliano: smascherare l’apparenza per rivelare la verità interiore.</li>
+              <li>Si distingue dal semplice comico: comico = avvertimento del contrario; umoristico = sentimento del contrario.</li>
+              <li>Esempio della vecchia signora imbellettata: prima fa ridere, poi la riflessione rivela solitudine e sofferenza.</li>
+              <li>L’umorismo invita a non fermarsi alla superficie: penetra nella realtà profonda dell’esistenza.</li>
+              <li>L’arte, per Pirandello, non deve soltanto divertire: deve svelare la tragicità nascosta nel quotidiano.</li>
+              <li>L’originalità pirandelliana: trasformare un sorriso in compassione, mostrare il tragico dietro il comico.</li>
+              <li>È il cuore della poetica: rovesciamento dello sguardo, comprensione della fragilità umana.</li>
+            </ol>
+
+            <div style="clear:both;"></div>
+
+            <figure class="float-media" style="float:none; width:100%; margin:18px 0 0;">
+              <img class="thumb"
+                   id="thumb"
+                   src="assets/Umorismo-Pirandello.jpeg.png"
+                   alt="Schema dell’umorismo (clicca per zoom)" />
+              <figcaption><strong>Schema</strong> — clicca per zoom/pan.</figcaption>
+            </figure>
+
+          </div>
+        </article>
+      </div>
+
+      <div class="pager-hint">
+        <span>Zoom: rotella · Pan: trascina · Reset: pulsante · Chiudi zoom: Esc</span>
+        <span>Appunti: trascina la barra in alto · Autosave + Export .txt</span>
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL ZOOM/PAN -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Zoom immagine">
+    <div class="modal-card">
+      <div class="modal-top">
+        <div class="title">Zoom/Pan — immagine navigabile</div>
+        <div class="modal-actions">
+          <button class="iconbtn" id="zoomOut">−</button>
+          <button class="iconbtn" id="zoomIn">+</button>
+          <button class="iconbtn" id="resetZoom">Reset</button>
+          <button class="iconbtn" id="closeZoom">Chiudi</button>
+        </div>
+      </div>
+      <div class="stage" id="stage">
+        <img id="zoomImg" class="zoomable" alt="Immagine zoomabile" />
+      </div>
     </div>
-    <p style="margin-top:12px;">
-      Una vecchia signora coi capelli tinti e tutta imbellettata.
-    </p>
   </div>
 
-  <!-- DESTRA: AVVERTIMENTO -->
-  <div class="box">
-    <h2>Avvertimento del contrario</h2>
-    <p>
-      È il contrario di ciò che una vecchia signora dovrebbe essere.
-    </p>
-    <p>
-      La percezione immediata del contrasto genera il riso:
-      questo è il <strong>comico</strong>.
-    </p>
-  </div>
+  <!-- FINESTRA APPUNTI -->
+  <section class="notes-window" id="notesWin" aria-label="Finestra appunti">
+    <div class="notes-top" id="notesDrag">
+      <div class="notes-title">
+        <strong>Appunti</strong>
+        <span id="notesSub">Salvataggio automatico per questa lezione</span>
+      </div>
+      <div class="notes-actions">
+        <button class="iconbtn" id="exportTxt" title="Esporta appunti in .txt">Export .txt</button>
+        <button class="iconbtn" id="clearNotes" title="Svuota appunti">Svuota</button>
+        <button class="iconbtn" id="closeNotes" title="Chiudi">Chiudi</button>
+      </div>
+    </div>
 
-</div>
+    <div class="notes-body">
+      <textarea class="notes-text" id="notesText"
+        placeholder="Scrivi qui i tuoi appunti… (si salvano da soli)"></textarea>
+    </div>
 
-<div class="freccia">⬇</div>
+    <div class="notes-bottom">
+      <div><span class="status-dot" id="dot"></span><span id="status">Pronto</span></div>
+      <div id="counter">0 caratteri</div>
+    </div>
+  </section>
 
-<!-- IN BASSO: SENTIMENTO -->
-<div class="box sentimento">
-  <h2>Sentimento del contrario</h2>
-  <p>
-    Interviene la riflessione.
-    Quella donna forse non prova alcun piacere a pararsi così.
-    Forse ne soffre.
-  </p>
-  <p>
-    Si illude che, nascondendo le rughe e la vecchiaia,
-    possa trattenere l’amore del marito più giovane.
-  </p>
-  <p>
-    A questo punto non si ride più.
-    Dal comico si passa all’<strong>umoristico</strong>:
-    il riso si trasforma in compassione.
-  </p>
-</div>
+  <script>
+    /* =========================
+       Vista 1/2 pagine + font
+       ========================= */
+    const spread = document.getElementById('spread');
+    const toggleTwo = document.getElementById('toggleTwo');
+    let twoPages = false;
+    toggleTwo.addEventListener('click', () => {
+      twoPages = !twoPages;
+      spread.classList.toggle('two', twoPages);
+      toggleTwo.setAttribute('aria-pressed', String(twoPages));
+      toggleTwo.textContent = twoPages ? '↔︎ Vista 1 pagina' : '↔︎ Vista 2 pagine';
+    });
 
-</div>
-</article>
-</div>
-</div>
+    const font = document.getElementById('font');
+    font.addEventListener('input', () => {
+      const px = Number(font.value);
+      document.querySelectorAll('.page-inner').forEach(el => el.style.fontSize = px + 'px');
+    });
+
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
+    document.getElementById('prev').addEventListener('click', () => page1.scrollIntoView({behavior:'smooth', block:'start'}));
+    document.getElementById('next').addEventListener('click', () => page2.scrollIntoView({behavior:'smooth', block:'start'}));
+
+    /* =========================
+       Zoom/Pan immagine
+       ========================= */
+    const modal = document.getElementById('modal');
+    const thumb = document.getElementById('thumb');
+    const zoomImg = document.getElementById('zoomImg');
+    const stage = document.getElementById('stage');
+    const closeZoom = document.getElementById('closeZoom');
+    const resetZoom = document.getElementById('resetZoom');
+    const zoomIn = document.getElementById('zoomIn');
+    const zoomOut = document.getElementById('zoomOut');
+
+    let scale = 1, tx = 0, ty = 0;
+    let dragging = false, startX = 0, startY = 0;
+
+    function applyTransform(){
+      zoomImg.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(${scale})`;
+    }
+    function openZoom(src){
+      zoomImg.src = src;
+      scale = 1; tx = 0; ty = 0;
+      applyTransform();
+      modal.classList.add('open');
+      closeZoom.focus();
+    }
+    function closeZoomModal(){
+      modal.classList.remove('open');
+      dragging = false;
+    }
+
+    thumb.addEventListener('click', () => openZoom(thumb.src));
+    closeZoom.addEventListener('click', closeZoomModal);
+    modal.addEventListener('click', (e) => { if(e.target === modal) closeZoomModal(); });
+
+    resetZoom.addEventListener('click', () => { scale = 1; tx = 0; ty = 0; applyTransform(); });
+    zoomIn.addEventListener('click', () => { scale = Math.min(6, +(scale + 0.2).toFixed(2)); applyTransform(); });
+    zoomOut.addEventListener('click', () => { scale = Math.max(0.6, +(scale - 0.2).toFixed(2)); applyTransform(); });
+
+    stage.addEventListener('wheel', (e) => {
+      if(!modal.classList.contains('open')) return;
+      e.preventDefault();
+      const d = Math.sign(e.deltaY);
+      scale = d > 0 ? Math.max(0.6, +(scale - 0.12).toFixed(2)) : Math.min(6, +(scale + 0.12).toFixed(2));
+      applyTransform();
+    }, {passive:false});
+
+    zoomImg.addEventListener('pointerdown', (e) => {
+      dragging = true;
+      startX = e.clientX - tx;
+      startY = e.clientY - ty;
+      zoomImg.setPointerCapture(e.pointerId);
+    });
+    zoomImg.addEventListener('pointermove', (e) => {
+      if(!dragging) return;
+      tx = e.clientX - startX;
+      ty = e.clientY - startY;
+      applyTransform();
+    });
+    zoomImg.addEventListener('pointerup', () => dragging = false);
+    zoomImg.addEventListener('pointercancel', () => dragging = false);
+
+    /* =========================
+       Finestra Appunti: toggle + drag + autosave + export
+       ========================= */
+    const toggleNotes = document.getElementById('toggleNotes');
+    const notesWin = document.getElementById('notesWin');
+    const notesDrag = document.getElementById('notesDrag');
+    const notesText = document.getElementById('notesText');
+    const closeNotes = document.getElementById('closeNotes');
+    const exportTxt = document.getElementById('exportTxt');
+    const clearNotes = document.getElementById('clearNotes');
+    const statusEl = document.getElementById('status');
+    const dot = document.getElementById('dot');
+    const counter = document.getElementById('counter');
+    const notesSub = document.getElementById('notesSub');
+
+    const NOTES_KEY = `mw_notes::${location.pathname}`;
+    const POS_KEY   = `mw_notes_pos::${location.pathname}`;
+
+    function setStatus(kind, text){
+      statusEl.textContent = text;
+      dot.classList.remove('ok','warn','err');
+      if(kind) dot.classList.add(kind);
+    }
+
+    function getTopZ(){
+      const z = Number(notesWin.dataset.z || '80') + 1;
+      notesWin.dataset.z = String(z);
+      return z;
+    }
+
+    function openNotes(){
+      notesWin.classList.add('open');
+      toggleNotes.setAttribute('aria-pressed', 'true');
+      notesWin.style.zIndex = String(getTopZ());
+      notesText.focus();
+    }
+    function closeNotesWin(){
+      notesWin.classList.remove('open');
+      toggleNotes.setAttribute('aria-pressed', 'false');
+    }
+
+    toggleNotes.addEventListener('click', () => {
+      const open = notesWin.classList.contains('open');
+      open ? closeNotesWin() : openNotes();
+    });
+    closeNotes.addEventListener('click', closeNotesWin);
+
+    const saved = localStorage.getItem(NOTES_KEY);
+    if(saved !== null) {
+      notesText.value = saved;
+      setStatus('ok','Recuperati');
+    } else {
+      setStatus(null,'Pronto');
+    }
+
+    const savedPos = localStorage.getItem(POS_KEY);
+    if(savedPos){
+      try{
+        const p = JSON.parse(savedPos);
+        if(typeof p.left === 'number') notesWin.style.left = p.left + 'px';
+        if(typeof p.top === 'number')  notesWin.style.top  + 'px';
+        notesWin.style.right = 'auto';
+        notesWin.style.bottom = 'auto';
+      }catch{}
+    }
+
+    notesSub.textContent = `Lezione: ${location.pathname.split('/').pop() || 'index.html'}`;
+
+    let saveTimer = null;
+    function scheduleSave(){
+      setStatus('warn','Scrivendo…');
+      if(saveTimer) clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        try{
+          localStorage.setItem(NOTES_KEY, notesText.value);
+          setStatus('ok','Salvati');
+        }catch(e){
+          setStatus('err','Errore salvataggio');
+        }
+      }, 350);
+    }
+
+    function updateCounter(){
+      counter.textContent = `${notesText.value.length} caratteri`;
+    }
+    updateCounter();
+
+    notesText.addEventListener('input', () => {
+      updateCounter();
+      scheduleSave();
+    });
+
+    exportTxt.addEventListener('click', () => {
+      const blob = new Blob([notesText.value], {type: 'text/plain;charset=utf-8'});
+      const a = document.createElement('a');
+      const lessonName = (location.pathname.split('/').pop() || 'lezione').replace('.html','');
+      const stamp = new Date().toISOString().slice(0,19).replace(/[:T]/g,'-');
+      a.href = URL.createObjectURL(blob);
+      a.download = `${lessonName}-appunti-${stamp}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        URL.revokeObjectURL(a.href);
+        a.remove();
+      }, 0);
+    });
+
+    clearNotes.addEventListener('click', () => {
+      notesText.value = '';
+      updateCounter();
+      localStorage.setItem(NOTES_KEY, '');
+      setStatus('ok','Svuotati');
+      notesText.focus();
+    });
+
+    let drag = {active:false, startX:0, startY:0, startLeft:0, startTop:0};
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+    notesDrag.addEventListener('pointerdown', (e) => {
+      drag.active = true;
+      notesWin.style.zIndex = String(getTopZ());
+      notesDrag.setPointerCapture(e.pointerId);
+
+      const rect = notesWin.getBoundingClientRect();
+      drag.startX = e.clientX;
+      drag.startY = e.clientY;
+      drag.startLeft = rect.left;
+      drag.startTop = rect.top;
+
+      notesWin.style.left = rect.left + 'px';
+      notesWin.style.top = rect.top + 'px';
+      notesWin.style.right = 'auto';
+      notesWin.style.bottom = 'auto';
+    });
+
+    notesDrag.addEventListener('pointermove', (e) => {
+      if(!drag.active) return;
+      const dx = e.clientX - drag.startX;
+      const dy = e.clientY - drag.startY;
+
+      const rect = notesWin.getBoundingClientRect();
+      const w = rect.width, h = rect.height;
+
+      const maxLeft = window.innerWidth - w - 8;
+      const maxTop  = window.innerHeight - h - 8;
+
+      const left = clamp(drag.startLeft + dx, 8, maxLeft);
+      const top  = clamp(drag.startTop + dy, 8, maxTop);
+
+      notesWin.style.left = left + 'px';
+      notesWin.style.top = top + 'px';
+    });
+
+    notesDrag.addEventListener('pointerup', () => {
+      if(!drag.active) return;
+      drag.active = false;
+      const rect = notesWin.getBoundingClientRect();
+      localStorage.setItem(POS_KEY, JSON.stringify({left: rect.left, top: rect.top}));
+    });
+    notesDrag.addEventListener('pointercancel', () => drag.active = false);
+
+    window.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && modal.classList.contains('open')) closeZoomModal();
+      const isMac = navigator.platform.toLowerCase().includes('mac');
+      const cmd = isMac ? e.metaKey : e.ctrlKey;
+      if(cmd && (e.key.toLowerCase() === 'k')){
+        e.preventDefault();
+        const open = notesWin.classList.contains('open');
+        open ? closeNotesWin() : openNotes();
+      }
+    });
+  </script>
 </body>
 </html>
