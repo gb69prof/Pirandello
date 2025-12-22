@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pirandello — Pagina (nuovo layout)</title>
+  <title>Pirandello — Visione del mondo</title>
   <style>
     :root{
       --bg:#0f141a;
@@ -13,10 +13,12 @@
       --stroke2:rgba(255,255,255,.12);
       --text:#e8edf5;
       --muted:rgba(255,255,255,.70);
+
       --paper:#ffffff;
       --ink:#12161c;
       --shadow:0 14px 40px rgba(0,0,0,.28);
       --radius:18px;
+
       --serif:ui-serif, Georgia, "Times New Roman", Times, serif;
       --sans:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       --mono:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -45,6 +47,7 @@
     .crumb a{color:#f4f7ff; text-decoration:none; border-bottom:1px solid rgba(255,255,255,.18); padding-bottom:2px;}
     .crumb a:hover{border-bottom-color:rgba(255,255,255,.42);}
     .sep{color:rgba(232,237,245,.55);}
+
     .toolbar{display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end;}
     .btn{
       border:1px solid rgba(255,255,255,.14);
@@ -88,13 +91,80 @@
       overflow:hidden;
     }
     .side-inner{padding:12px;}
+
     .author-card{
       border-radius:16px;
       overflow:hidden;
       border:1px solid rgba(255,255,255,.14);
       background:rgba(0,0,0,.18);
     }
-    .author-img{width:100%; display:block; cursor:pointer;}
+
+    /* area media (foto/video) */
+    .media-frame{
+      position:relative;
+      width:100%;
+      aspect-ratio: 4 / 3;         /* coerente, sempre stessa “grandezza” */
+      background:rgba(0,0,0,.22);
+      overflow:hidden;
+    }
+    .media-frame img{
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+      cursor:pointer;
+      user-select:none;
+      -webkit-user-drag:none;
+    }
+    .media-frame .overlay{
+      position:absolute; inset:0;
+      display:flex; align-items:flex-end; justify-content:space-between;
+      padding:10px;
+      pointer-events:none;
+      background:linear-gradient(to top, rgba(0,0,0,.55), transparent 55%);
+      color:#fff;
+      font-size:12px;
+      font-family:var(--sans);
+    }
+    .badge{
+      pointer-events:none;
+      padding:6px 8px;
+      border-radius:999px;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.18);
+      backdrop-filter:blur(8px);
+    }
+    .media-actions{
+      position:absolute;
+      top:10px; right:10px;
+      display:flex; gap:8px;
+      z-index:5;
+    }
+    .mini-btn{
+      pointer-events:auto;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.10);
+      color:#fff;
+      padding:7px 10px;
+      border-radius:12px;
+      cursor:pointer;
+      font-size:12px;
+      font-family:var(--sans);
+      user-select:none;
+    }
+    .mini-btn:hover{background:rgba(255,255,255,.14);}
+
+    .heygen{
+      position:absolute; inset:0;
+      display:none;
+      background:#000;
+    }
+    .heygen iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+    }
+
     .author-meta{padding:10px 10px 12px; color:rgba(255,255,255,.86); font-size:13px; line-height:1.35;}
     .author-meta strong{display:block; font-size:14px;}
     .author-meta span{color:rgba(255,255,255,.68); font-size:12px;}
@@ -135,24 +205,12 @@
     .page h1{margin:0 0 10px; font-size:28px;}
     .page h2{margin:18px 0 8px; font-size:20px;}
     .page h3{margin:16px 0 6px; font-size:18px;}
-    .meta{font-family:var(--sans); font-size:12px; color:#5b6676; display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;}
-    .note{
-      font-family:var(--sans);
-      font-size:13px;
-      line-height:1.45;
-      color:#1a2430;
-      border-left:3px solid rgba(43,124,255,.55);
-      background:rgba(43,124,255,.08);
-      padding:10px 12px;
-      border-radius:12px;
-      margin:12px 0 16px;
-    }
 
     figure.inline-media{margin:12px 0 16px; border:1px solid rgba(18,22,28,.10); border-radius:14px; overflow:hidden; background:#f8fafc;}
     figure.inline-media img{width:100%; height:auto; display:block; cursor:zoom-in;}
     figure.inline-media figcaption{font-family:var(--sans); font-size:12px; color:#394455; padding:8px 10px; border-top:1px solid rgba(18,22,28,.08); background:#fff;}
 
-    /* POPUP (immagini) */
+    /* POPUP IMMAGINI (solo immagini del testo) */
     .pop{
       position:fixed; left:50%; top:50%;
       transform:translate(-50%,-50%);
@@ -199,11 +257,7 @@
     .pop-img:active{cursor:grabbing;}
     .resize-handle{position:absolute; right:8px; bottom:8px; width:18px; height:18px; border-radius:6px; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.26); cursor:nwse-resize; touch-action:none;}
 
-    /* POPUP (video) */
-    .video-box{background:rgba(255,255,255,.06);}
-    .video-box iframe{width:100%; aspect-ratio:16/9; border:0; display:block;}
-
-    /* NOTE (facoltativo) */
+    /* NOTE */
     .notes{
       position:fixed; right:22px; bottom:22px;
       width:min(520px, calc(100vw - 44px));
@@ -275,7 +329,6 @@
       <button class="btn" id="toggleTwo" aria-pressed="false">↔︎ 2 pagine</button>
       <div class="pill" title="Dimensione del testo">A− <input id="font" type="range" min="15" max="24" value="18" /> A+</div>
       <button class="btn" id="toggleNotes" aria-pressed="false">📝 Appunti</button>
-      <button class="btn" id="openOptions" aria-pressed="false">⚙︎ Opzioni</button>
     </div>
   </header>
 
@@ -283,23 +336,46 @@
     <!-- COLONNA SINISTRA -->
     <aside class="sidebar">
       <div class="side-inner">
-        <div class="author-card">
-          <!-- CLIC = VIDEO -->
-          <img class="author-img" id="authorThumb" src="assets/Pirandello-ritratto.png" alt="Pirandello (clicca per video)">
+
+        <div class="author-card" aria-label="Autore e video">
+          <div class="media-frame" id="mediaFrame">
+            <!-- FOTO -->
+            <img id="authorImg" src="assets/Pirandello-ritratto.png" alt="Pirandello (clicca per video)" />
+
+            <div class="overlay">
+              <span class="badge">clic sulla foto → video</span>
+              <span class="badge" id="mediaState">foto</span>
+            </div>
+
+            <!-- VIDEO (stessa finestra dell'immagine) -->
+            <div class="heygen" id="heygenWrap" aria-hidden="true">
+              <div class="media-actions">
+                <button class="mini-btn" id="backToImg" type="button">Torna alla foto</button>
+              </div>
+              <iframe
+                id="heygenIframe"
+                src=""
+                title="HeyGen video player"
+                frameborder="0"
+                allow="encrypted-media; fullscreen;"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </div>
+
           <div class="author-meta">
             <strong>Luigi Pirandello</strong>
-            <span>clicca la foto per aprire il video</span>
+            <span>video integrato nel riquadro della foto</span>
           </div>
         </div>
 
         <div class="side-title">Indice</div>
         <nav class="index" aria-label="Indice">
-          <a href="#intro">Introduzione <small>(sezione)</small></a>
-          <a href="#umorismo">1. Umorismo <small>(sezione)</small></a>
-          <a href="#romanzi">2. Romanzi <small>(sezione)</small></a>
-          <a href="#teatro">3. Teatro <small>(sezione)</small></a>
-          <a href="#sintesi">4. Visione del mondo <small>(completa)</small></a>
+          <a href="#sintesi">La visione del mondo <small>(inizio)</small></a>
+          <a href="#vocabolario">Vocabolario <small>(termini chiave)</small></a>
+          <a href="#irrinunciabili">Saperi irrinunciabili <small>(check)</small></a>
         </nav>
+
       </div>
     </aside>
 
@@ -307,42 +383,6 @@
     <main class="pages" id="pages">
       <!-- PAGINA 1 -->
       <article class="page" id="page1">
-        <div class="page-inner">
-          <section id="intro">
-            <h1>Introduzione</h1>
-            <div class="meta">
-              <span>Layout “quaderno”: sinistra (foto+indice), destra (testo)</span>
-              <span>Immagini nel testo (clic → pop-up)</span>
-              <span>Foto autore (clic → HeyGen)</span>
-            </div>
-            <div class="note">Qui lasciamo volutamente “vuoto”/placeholder: inserirai tu i contenuti quando vuoi.</div>
-          </section>
-
-          <section id="umorismo">
-            <h2>1) La poetica dell’umorismo</h2>
-            <div class="note">Testo da inserire.</div>
-          </section>
-
-          <section id="romanzi">
-            <h2>2) I ROMANZI</h2>
-            <h3>Il fu Mattia Pascal</h3>
-            <div class="note">Testo da inserire.</div>
-            <h3>Uno, nessuno e centomila</h3>
-            <div class="note">Testo da inserire.</div>
-          </section>
-
-          <section id="teatro">
-            <h2>3) IL TEATRO</h2>
-            <h3>Così è (se vi pare)</h3>
-            <div class="note">Testo da inserire.</div>
-            <h3>Sei personaggi in cerca d’autore</h3>
-            <div class="note">Testo da inserire.</div>
-          </section>
-        </div>
-      </article>
-
-      <!-- PAGINA 2 -->
-      <article class="page" id="page2">
         <div class="page-inner">
           <section id="sintesi">
             <h1>La visione del mondo</h1>
@@ -364,24 +404,51 @@
               <img class="thumb" src="assets/Societa-Pirandello.png" alt="Pirandello e la società borghese" data-title="Società borghese: famiglia e lavoro come maschere">
               <figcaption>Società borghese: famiglia e lavoro come maschere</figcaption>
             </figure>
+          </section>
+        </div>
+      </article>
 
-            <p>L’individuo si scopre frammentato: per gli altri è centomila personalità, mentre per sé stesso non è che nessuno. Ogni tentativo di fissarsi in una forma diventa una nuova maschera. È questo il destino comune: uscire dal grigiore quotidiano per scoprire di essere esclusi — condannati a restare “nessuno”.</p>
-            <figure class="inline-media">
-              <img class="thumb" src="assets/Conseguenze-Pirandello.png" alt="Conseguenze dell’incomunicabilità" data-title="Conseguenze: solitudine e scoperta del ‘nessuno’">
-              <figcaption>Conseguenze: solitudine e scoperta del “nessuno”</figcaption>
-            </figure>
+      <!-- PAGINA 2 -->
+      <article class="page" id="page2">
+        <div class="page-inner">
+          <p>L’individuo si scopre frammentato: per gli altri è centomila personalità, mentre per sé stesso non è che nessuno. Ogni tentativo di fissarsi in una forma diventa una nuova maschera. È questo il destino comune: uscire dal grigiore quotidiano per scoprire di essere esclusi — condannati a restare “nessuno”.</p>
 
-            <figure class="inline-media">
-              <img class="thumb" src="assets/Mondo-Pirandello.png" alt="Schema: visione del mondo" data-title="Schema: la visione del mondo (mappa)">
-              <figcaption>Schema: la visione del mondo (mappa)</figcaption>
-            </figure>
+          <figure class="inline-media">
+            <img class="thumb" src="assets/Conseguenze-Pirandello.png" alt="Conseguenze dell’incomunicabilità" data-title="Conseguenze: solitudine e scoperta del ‘nessuno’">
+            <figcaption>Conseguenze: solitudine e scoperta del “nessuno”</figcaption>
+          </figure>
+
+          <figure class="inline-media">
+            <img class="thumb" src="assets/Mondo-Pirandello.png" alt="Schema: visione del mondo" data-title="Schema: la visione del mondo (mappa)">
+            <figcaption>Schema: la visione del mondo (mappa)</figcaption>
+          </figure>
+
+          <section id="vocabolario">
+            <h2>Vocabolario dei termini chiave</h2>
+            <ul>
+              <li><strong>Vitalismo di Bergson:</strong> concezione filosofica secondo cui la vita è un flusso incessante di trasformazioni; ogni tentativo di fissarla in forme statiche conduce alla morte interiore.</li>
+              <li><strong>Flusso perenne:</strong> la vita come movimento continuo, divenire senza sosta.</li>
+              <li><strong>Incomunicabilità:</strong> impossibilità di comprendersi pienamente: ogni coscienza abita una realtà soggettiva.</li>
+              <li><strong>Maschere sociali:</strong> ruoli imposti dalla società che soffocano l’autenticità dell’individuo.</li>
+              <li><strong>Uno, nessuno e centomila:</strong> formula della condizione moderna: uno per sé, centomila per gli altri, e in fondo nessuno.</li>
+            </ul>
+          </section>
+
+          <section id="irrinunciabili">
+            <h2>Saperi irrinunciabili</h2>
+            <ol>
+              <li>Per Pirandello la vita è flusso: fissarsi in una forma significa “morire” dentro.</li>
+              <li>L’incomunicabilità nasce dalla frantumazione della realtà in prospettive soggettive.</li>
+              <li>Famiglia e lavoro diventano maschere che imprigionano, non rifugi che proteggono.</li>
+              <li>La persona è molteplice: “centomila” per gli altri, “nessuno” per sé.</li>
+            </ol>
           </section>
         </div>
       </article>
     </main>
   </div>
 
-  <!-- POPUP IMMAGINI -->
+  <!-- POPUP SOLO IMMAGINI DEL TESTO -->
   <div class="pop" id="imgPop" role="dialog" aria-modal="true" aria-label="Immagine">
     <div class="pop-top" id="popDrag">
       <div class="pop-title" id="popTitle">Immagine</div>
@@ -398,17 +465,6 @@
       </div>
       <div class="resize-handle" id="popResize" title="Ridimensiona"></div>
     </div>
-  </div>
-
-  <!-- POPUP VIDEO -->
-  <div class="pop" id="videoPop" role="dialog" aria-modal="true" aria-label="Video autore">
-    <div class="pop-top" id="videoDrag">
-      <div class="pop-title">Video — Pirandello</div>
-      <div class="pop-actions">
-        <button class="iconbtn" id="videoClose">Chiudi</button>
-      </div>
-    </div>
-    <div class="video-box" id="videoBox"></div>
   </div>
 
   <!-- APPUNTI -->
@@ -431,7 +487,7 @@
   </section>
 
   <script>
-    // Scorrimento indice
+    // ====== INDICE ======
     document.querySelectorAll('.index a').forEach(a=>{
       a.addEventListener('click',(e)=>{
         const href=a.getAttribute('href');
@@ -443,7 +499,7 @@
       });
     });
 
-    // Toggle 2 pagine
+    // ====== 2 PAGINE ======
     const pages=document.getElementById('pages');
     const toggleTwo=document.getElementById('toggleTwo');
     let twoPages=false;
@@ -454,14 +510,14 @@
       toggleTwo.textContent = twoPages ? '↔︎ 1 pagina' : '↔︎ 2 pagine';
     });
 
-    // Font size
+    // ====== FONT SIZE ======
     const font=document.getElementById('font');
     font.addEventListener('input',()=>{
       const px=Number(font.value);
       document.querySelectorAll('.page-inner').forEach(el=>el.style.fontSize=px+'px');
     });
 
-    // POPUP immagini (drag + resize + zoom + pan)
+    // ====== POPUP IMMAGINI DEL TESTO ======
     const imgPop=document.getElementById('imgPop');
     const popDrag=document.getElementById('popDrag');
     const popResize=document.getElementById('popResize');
@@ -569,57 +625,52 @@
     popResize.addEventListener('pointerup',()=>presize.active=false);
     popResize.addEventListener('pointercancel',()=>presize.active=false);
 
-    // VIDEO (HeyGen) — tuo iframe ESATTO
-    const authorThumb=document.getElementById('authorThumb');
-    const videoPop=document.getElementById('videoPop');
-    const videoDrag=document.getElementById('videoDrag');
-    const videoClose=document.getElementById('videoClose');
-    const videoBox=document.getElementById('videoBox');
+    // ====== VIDEO IN-PLACE (foto ↔ video nello stesso riquadro) ======
+    const authorImg = document.getElementById('authorImg');
+    const heygenWrap = document.getElementById('heygenWrap');
+    const heygenIframe = document.getElementById('heygenIframe');
+    const backToImg = document.getElementById('backToImg');
+    const mediaState = document.getElementById('mediaState');
 
-    const HEYGEN_EMBED = `<iframe width="560" height="315" src="https://app.heygen.com/embedded-player/70ac565e14cd4e8b83052dc76434961e" title="HeyGen video player" frameborder="0" allow="encrypted-media; fullscreen;" allowfullscreen></iframe>`;
+    const HEYGEN_SRC = "https://app.heygen.com/embedded-player/70ac565e14cd4e8b83052dc76434961e";
 
-    function openVideo(){
-      videoBox.innerHTML = HEYGEN_EMBED;
-      const iframe = videoBox.querySelector('iframe');
-      if(iframe){
-        iframe.removeAttribute('width');
-        iframe.removeAttribute('height');
-        iframe.style.width='100%';
-        iframe.style.aspectRatio='16 / 9';
-        iframe.style.display='block';
-      }
-      videoPop.classList.add('open');
-      videoClose.focus();
+    function showVideo(){
+      // carica solo quando serve
+      if(!heygenIframe.src) heygenIframe.src = HEYGEN_SRC;
+      heygenWrap.style.display = "block";
+      heygenWrap.setAttribute("aria-hidden","false");
+      authorImg.style.visibility = "hidden"; // occupa spazio ma “sparisce”
+      mediaState.textContent = "video";
     }
-    function closeVideo(){
-      videoPop.classList.remove('open');
-      videoBox.innerHTML='';
+
+    function showImage(){
+      // per “fermarsi” davvero: svuoto src (stop) e lo rimetto al click successivo
+      heygenIframe.src = "";
+      heygenWrap.style.display = "none";
+      heygenWrap.setAttribute("aria-hidden","true");
+      authorImg.style.visibility = "visible";
+      mediaState.textContent = "foto";
     }
-    authorThumb.addEventListener('click', openVideo);
-    videoClose.addEventListener('click', closeVideo);
 
-    let vdrag={active:false, startX:0, startY:0, startLeft:0, startTop:0};
-    videoDrag.addEventListener('pointerdown',(e)=>{
-      vdrag.active=true;
-      videoDrag.setPointerCapture(e.pointerId);
-      const r=videoPop.getBoundingClientRect();
-      vdrag.startX=e.clientX; vdrag.startY=e.clientY;
-      vdrag.startLeft=r.left; vdrag.startTop=r.top;
-      videoPop.style.left=r.left+'px';
-      videoPop.style.top=r.top+'px';
-      videoPop.style.transform='none';
-    });
-    videoDrag.addEventListener('pointermove',(e)=>{
-      if(!vdrag.active) return;
-      const dx=e.clientX-vdrag.startX, dy=e.clientY-vdrag.startY;
-      const r=videoPop.getBoundingClientRect(), w=r.width, h=r.height;
-      videoPop.style.left = clamp(vdrag.startLeft+dx, 8, window.innerWidth-w-8) + 'px';
-      videoPop.style.top  = clamp(vdrag.startTop +dy, 8, window.innerHeight-h-8) + 'px';
-    });
-    videoDrag.addEventListener('pointerup',()=>vdrag.active=false);
-    videoDrag.addEventListener('pointercancel',()=>vdrag.active=false);
+    authorImg.addEventListener('click', showVideo);
+    backToImg.addEventListener('click', showImage);
 
-    // APPUNTI (autosave)
+    // Tentativo di ritorno automatico:
+    // Funziona SOLO se HeyGen invia postMessage con eventi tipo "ended"/"complete".
+    window.addEventListener("message", (event) => {
+      // Non posso garantire origin “stabile” senza doc HeyGen: quindi controllo solo contenuto.
+      try{
+        const data = event.data;
+        const str = typeof data === "string" ? data.toLowerCase() : "";
+        const obj = (typeof data === "object" && data) ? JSON.stringify(data).toLowerCase() : "";
+
+        if(str.includes("ended") || str.includes("complete") || obj.includes("ended") || obj.includes("complete")){
+          showImage();
+        }
+      }catch(e){}
+    });
+
+    // ====== APPUNTI (autosave) ======
     const toggleNotes=document.getElementById('toggleNotes');
     const notesWin=document.getElementById('notesWin');
     const notesDrag=document.getElementById('notesDrag');
@@ -710,18 +761,15 @@
     });
     notesDrag.addEventListener('pointercancel', ()=>ndrag.active=false);
 
-    // ESC chiude popup
+    // ESC chiude popup immagini + torna alla foto se video aperto
     window.addEventListener('keydown',(e)=>{
       if(e.key==='Escape'){
         if(imgPop.classList.contains('open')) closeImagePop();
-        if(videoPop.classList.contains('open')) closeVideo();
+        // se sei in video, ESC torna alla foto
+        if(mediaState.textContent === "video") showImage();
       }
-    });
-
-    // opzioni
-    document.getElementById('openOptions').addEventListener('click', ()=>{
-      alert("Opzioni:\n- 2 pagine: divide la colonna destra\n- Appunti: finestra flottante (autosave)\n- Foto autore: apre HeyGen\n\nHome è volutamente vuoto (lo imposti tu).");
     });
   </script>
 </body>
 </html>
+
