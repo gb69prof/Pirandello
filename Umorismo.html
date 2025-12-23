@@ -519,8 +519,8 @@
 
         <div class="author-card" aria-label="Autore e video">
           <div class="media-frame" id="mediaFrame">
-            <!-- ✅ QUI: immagine “Pirandello sull’umorismo” -->
-            <img id="authorImg" src="assets/Umorismo-Pirandello.jpeg.png" alt="Pirandello — Umorismo (clicca per video)" />
+            <!-- ✅ QUI: immagine cliccabile IMG_3697.jpeg -->
+            <img id="authorImg" src="assets/IMG_3697.jpeg" alt="Pirandello (clicca per video)" />
 
             <div class="overlay">
               <span class="badge">clic sulla foto → video</span>
@@ -532,15 +532,16 @@
                 <button class="mini-btn" id="backToImg" type="button">Torna alla foto</button>
               </div>
 
-              <!-- iframe HeyGen (uguale alla pagina Pirandello) -->
+              <!-- ✅ QUI: video YouTube (stessa finestra, stessa grandezza) -->
               <iframe
                 id="heygenIframe"
                 width="560"
                 height="315"
-                src="https://app.heygen.com/embedded-player/70ac565e14cd4e8b83052dc76434961e"
-                title="HeyGen video player"
+                src="https://www.youtube.com/embed/s5cgx1ypTsE?si=jOlenvnHMWU8DNrk"
+                title="YouTube video player"
                 frameborder="0"
-                allow="encrypted-media; fullscreen;"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
                 allowfullscreen>
               </iframe>
             </div>
@@ -548,7 +549,7 @@
 
           <div class="author-meta">
             <strong>Luigi Pirandello</strong>
-            <span>immagine “Umorismo” • video nello stesso riquadro</span>
+            <span>foto intera (senza tagli) • video nello stesso riquadro</span>
           </div>
         </div>
 
@@ -584,7 +585,7 @@
           <div class="humor-frame">
 
             <div class="humor-top">
-              <!-- BOX: IMMAGINE (qui: video YouTube dello schema) -->
+              <!-- BOX: IMMAGINE (qui: video YouTube dello schema, come nel tuo file) -->
               <section class="humor-box">
                 <div class="hb-head">Immagine</div>
                 <div class="hb-body">
@@ -706,11 +707,11 @@
             <br><br>
             Ma se ora interviene in me la riflessione, e mi suggerisce che quella vecchia signora non prova forse nessun piacere a pararsi così come un pappagallo,
             ma che forse ne soffre e lo fa soltanto perché pietosamente s'inganna che, parata così, nascondendo così le rughe e la canizie,
-            riesca a trattenere a sé l’amore del marito molto più giovane di lei, ecco che io non posso più riderne come prima.
+            riesca a trattenere a sé l'amore del marito molto più giovane di lei, ecco che io non posso più riderne come prima.
             <br><br>
             Perché appunto la riflessione, lavorando in me, mi ha fatto andar oltre a quel primo avvertimento, o piuttosto, più addentro:
             da quel primo avvertimento del contrario mi ha fatto passare a questo sentimento del contrario.
-            Ed è tutta qui la differenza tra il comico e l’umoristico.
+            Ed è tutta qui la differenza tra il comico e l'umoristico.
           </div>
 
           <h2>Vocabolario dei termini chiave</h2>
@@ -737,7 +738,13 @@
 
           <div style="clear:both;"></div>
 
-          <!-- ✅ RIMOSSA: la figura con assets/Umorismo-Pirandello.jpeg.png (spostata a sinistra) -->
+          <figure class="inline-media" style="margin-top:18px;">
+            <img class="thumb"
+                 src="assets/Umorismo-Pirandello.jpeg.png"
+                 alt="Schema dell’umorismo"
+                 data-title="Schema — clicca per zoom/pan." />
+            <figcaption><strong>Schema</strong> — clicca per zoom/pan.</figcaption>
+          </figure>
 
         </div>
       </article>
@@ -921,15 +928,15 @@
     popResize.addEventListener('pointerup',()=>presize.active=false);
     popResize.addEventListener('pointercancel',()=>presize.active=false);
 
-    // ====== VIDEO FOTO ↔ VIDEO (HeyGen nello stesso riquadro) ======
+    // ====== VIDEO FOTO ↔ VIDEO (YouTube nello stesso riquadro) ======
     const authorImg = document.getElementById('authorImg');
     const heygenWrap = document.getElementById('heygenWrap');
     const heygenIframe = document.getElementById('heygenIframe');
     const backToImg = document.getElementById('backToImg');
     const mediaState = document.getElementById('mediaState');
 
-    const HEYGEN_REAL_SRC = heygenIframe.getAttribute('src');
-    heygenIframe.dataset.src = HEYGEN_REAL_SRC;
+    const REAL_SRC = heygenIframe.getAttribute('src');
+    heygenIframe.dataset.src = REAL_SRC;
     heygenIframe.src = "about:blank";
 
     function showVideo(){
@@ -951,16 +958,8 @@
     authorImg.addEventListener('click', showVideo);
     backToImg.addEventListener('click', showImage);
 
-    window.addEventListener("message", (event) => {
-      try{
-        const data = event.data;
-        const str = typeof data === "string" ? data.toLowerCase() : "";
-        const obj = (typeof data === "object" && data) ? JSON.stringify(data).toLowerCase() : "";
-        if(str.includes("ended") || str.includes("complete") || obj.includes("ended") || obj.includes("complete")){
-          showImage();
-        }
-      }catch(e){}
-    });
+    // Nota: su YouTube l'evento "ended" via postMessage non è affidabile senza API.
+    // Manteniamo il ritorno alla foto tramite bottone o ESC.
 
     // ====== APPUNTI ======
     const toggleNotes=document.getElementById('toggleNotes');
