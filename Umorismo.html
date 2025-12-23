@@ -256,31 +256,6 @@
       margin:12px 0 16px;
     }
 
-    /* “Incastro”: immagine flottante nel flusso */
-    figure.float-media{
-      float:right;
-      width:min(44%, 360px);
-      margin:6px 0 12px 14px;
-      border:1px solid rgba(18,22,28,.10);
-      border-radius:14px;
-      overflow:hidden;
-      background:#f8fafc;
-    }
-    figure.float-media img{
-      width:100%;
-      height:auto;
-      display:block;
-      cursor:zoom-in;
-    }
-    figure.float-media figcaption{
-      font-family:var(--sans);
-      font-size:12px;
-      color:#394455;
-      padding:8px 10px;
-      border-top:1px solid rgba(18,22,28,.08);
-      background:#fff;
-    }
-
     .humor-title{
       text-align:center;
       font-family:var(--serif);
@@ -490,7 +465,6 @@
       .media-frame{height:320px;}
       .humor-top{grid-template-columns:1fr;}
       .humor-arrow{display:none;}
-      figure.float-media{float:none; width:100%; margin:8px 0 14px;}
     }
   </style>
 </head>
@@ -519,7 +493,6 @@
 
         <div class="author-card" aria-label="Autore e video">
           <div class="media-frame" id="mediaFrame">
-            <!-- ✅ QUI: immagine cliccabile IMG_3697.jpeg -->
             <img id="authorImg" src="assets/IMG_3697.jpeg" alt="Pirandello (clicca per video)" />
 
             <div class="overlay">
@@ -532,7 +505,6 @@
                 <button class="mini-btn" id="backToImg" type="button">Torna alla foto</button>
               </div>
 
-              <!-- ✅ QUI: video YouTube (stessa finestra, stessa grandezza) -->
               <iframe
                 id="heygenIframe"
                 width="560"
@@ -585,7 +557,7 @@
           <div class="humor-frame">
 
             <div class="humor-top">
-              <!-- BOX: IMMAGINE (qui: video YouTube dello schema, come nel tuo file) -->
+              <!-- BOX: IMMAGINE (video YouTube dello schema) -->
               <section class="humor-box">
                 <div class="hb-head">Immagine</div>
                 <div class="hb-body">
@@ -660,13 +632,7 @@
             <span>Esito: compassione</span>
           </div>
 
-          <figure class="float-media">
-            <img class="thumb"
-                 src="assets/IMG_3697.jpeg"
-                 alt="Maschere teatrali"
-                 data-title="Maschere — identità, ruoli, apparenze." />
-            <figcaption><strong>Maschere</strong> — identità, ruoli, apparenze.</figcaption>
-          </figure>
+          <!-- ✅ RIMOSSA l'immagine di Pirandello (IMG_3697) dalla parte destra -->
 
           <p>
             Pirandello non è soltanto un pensatore filosofico e sociologico: è, prima di tutto, uno scrittore e un artista.
@@ -735,8 +701,6 @@
             <li>L’originalità pirandelliana: trasformare un sorriso in compassione, mostrare il tragico dietro il comico.</li>
             <li>È il cuore della poetica: rovesciamento dello sguardo, comprensione della fragilità umana.</li>
           </ol>
-
-          <div style="clear:both;"></div>
 
           <figure class="inline-media" style="margin-top:18px;">
             <img class="thumb"
@@ -957,9 +921,6 @@
 
     authorImg.addEventListener('click', showVideo);
     backToImg.addEventListener('click', showImage);
-
-    // Nota: su YouTube l'evento "ended" via postMessage non è affidabile senza API.
-    // Manteniamo il ritorno alla foto tramite bottone o ESC.
 
     // ====== APPUNTI ======
     const toggleNotes=document.getElementById('toggleNotes');
