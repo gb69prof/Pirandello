@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Luigi Pirandello — Home</title>
+  <style>
+    :root{
+      --bg:#0f141a;
+      --panel:#121a22;
+      --card:#1d2630;
+      --cardHover:#263444;
+      --border:#324050;
+      --text:#e8edf5;
+      --muted:rgba(232,237,245,.78);
+      --shadow:0 14px 40px rgba(0,0,0,.35);
+      --radius:16px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.5;
+    }
+
+    .wrap{
+      max-width:1200px;
+      margin:0 auto;
+      padding:24px 16px 32px;
+    }
+
+    header{
+      padding:8px 4px 18px;
+    }
+    h1{
+      margin:0 0 6px;
+      font-size:clamp(26px, 3vw, 36px);
+      letter-spacing:.2px;
+    }
+    p.lead{
+      margin:0;
+      color:var(--muted);
+      max-width:62ch;
+    }
+
+    /* Layout:
+       - Colonna sinistra: titolo + testo breve
+       - Colonna destra: immagine + indice (come richiesto)
+    */
+    .layout{
+      display:grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap:16px;
+      align-items:start;
+    }
+
+    .left, .right{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .left{
+      padding:18px 18px 16px;
+      overflow:hidden;
+    }
+
+    .right{
+      padding:14px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .portrait{
+      border-radius:14px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.25);
+    }
+    .portrait img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+    .caption{
+      margin:8px 10px 10px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .indexTitle{
+      margin:4px 6px 10px;
+      font-size:14px;
+      letter-spacing:.25px;
+      text-transform:uppercase;
+      color:rgba(232,237,245,.86);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+
+    a.card{
+      display:block;
+      padding:12px 14px;
+      border-radius:14px;
+      background:var(--card);
+      color:var(--text);
+      text-decoration:none;
+      border:1px solid var(--border);
+      transition:transform .08s ease, background .12s ease, border-color .12s ease;
+      will-change:transform;
+    }
+    a.card:hover{
+      background:var(--cardHover);
+      border-color:rgba(159,178,199,.45);
+      transform:translateY(-1px);
+    }
+    a.card span{
+      display:block;
+      color:var(--muted);
+      font-size:13px;
+      margin-top:2px;
+    }
+
+    .note{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:14px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    /* Mobile: metti la colonna destra sotto */
+    @media (max-width: 860px){
+      .layout{grid-template-columns:1fr}
+      .wrap{padding:18px 12px 26px}
+      .right{order:2}
+      .left{order:1}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Percorso su Luigi Pirandello</h1>
+      <p class="lead">Seleziona una sezione per esplorare i contenuti della web app. A destra trovi il ritratto e l’indice.</p>
+    </header>
+
+    <main class="layout">
+      <section class="left">
+        <div class="note">
+          <b>Idea guida</b><br/>
+          Pirandello è l’autore della frattura: tra persona e maschera, tra vita che scorre e forma che irrigidisce.
+          Qui l’esplorazione è organizzata per “nodi” (visione, umorismo, romanzi, teatro) così da poter entrare e uscire
+          dai concetti senza perdersi.
+        </div>
+      </section>
+
+      <aside class="right" aria-label="Ritratto e indice">
+        <div class="portrait">
+          <img src="assets/Pirandello-ritratto.png" alt="Luigi Pirandello — ritratto" />
+          <div class="caption">Luigi Pirandello</div>
+        </div>
+
+        <div>
+          <div class="indexTitle">Indice</div>
+          <nav class="grid" aria-label="Sezioni">
+            <a class="card" href="Pirandello.html">Visione del mondo<span>Vita, forma, maschera</span></a>
+            <a class="card" href="Umorismo.html">L'umorismo<span>Avvertimento del contrario</span></a>
+            <a class="card" href="Mattia.html">Il fu Mattia Pascal<span>Identità e fuga</span></a>
+            <a class="card" href="Uno.html">Uno, nessuno e centomila<span>Frantumazione dell’io</span></a>
+            <a class="card" href="Cosi.html">Così è (se vi pare)<span>Relatività del vero</span></a>
+            <a class="card" href="Sei.html">Sei personaggi in cerca d'autore<span>Teatro e realtà</span></a>
+            <a class="card" href="Novelle.html">Novelle<span>Il laboratorio del quotidiano</span></a>
+            <a class="card" href="Romanzi.html">Romanzi<span>Strutture e ossessioni</span></a>
+            <a class="card" href="Teatro.html">Teatro<span>Forma scenica e conflitto</span></a>
+            <a class="card" href="Conclusione.html">Conclusione<span>Il filo che resta</span></a>
+          </nav>
+        </div>
+      </aside>
+    </main>
+  </div>
+</body>
+</html>
