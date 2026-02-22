@@ -4,15 +4,372 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Pirandello — Novelle</title>
-  <style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:850px;margin:0 auto;padding:30px 20px;line-height:1.6}a{color:#0b57d0}</style>
+
+  <style>
+    :root{
+      --bg:#0f141a;
+      --panel:#1d2630;
+      --border:#324050;
+      --text:#e8edf5;
+      --muted:rgba(232,237,245,.7);
+      --hover:#263444;
+
+      --tipBg:#0c1117;
+      --tipBorder:rgba(255,255,255,.14);
+      --tipShadow: 0 18px 40px rgba(0,0,0,.45);
+      --accent:rgba(232,237,245,.92);
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.7;
+    }
+
+    .layout{
+      max-width:1200px;
+      margin:0 auto;
+      padding:28px 18px;
+      display:grid;
+      grid-template-columns: 260px 1fr;
+      gap:22px;
+    }
+
+    /* INDEX */
+    .index{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:14px;
+      height:fit-content;
+      position:sticky;
+      top:18px;
+    }
+
+    .index a{
+      display:block;
+      padding:10px 12px;
+      border-radius:12px;
+      color:var(--text);
+      text-decoration:none;
+      font-size:14px;
+      transition:.12s;
+    }
+    .index a:hover{ background:var(--hover); }
+
+    /* CONTENT */
+    .content{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:22px 26px;
+    }
+
+    h1{
+      margin:0 0 14px 0;
+      font-weight:600;
+      letter-spacing:.3px;
+    }
+
+    p{ margin:0 0 18px 0; }
+
+    /* CONCEPT TOOLTIP */
+    .concept{
+      position:relative;
+      display:inline-flex;
+      align-items:baseline;
+      gap:6px;
+      padding:0 2px;
+      border-bottom:1px dashed rgba(232,237,245,.35);
+      color:var(--accent);
+      cursor:help;
+      text-decoration:none;
+      outline:none;
+    }
+
+    .concept:focus-visible{
+      outline:2px solid rgba(232,237,245,.35);
+      outline-offset:4px;
+      border-radius:10px;
+    }
+
+    .concept .badge{
+      font-size:11px;
+      line-height:1;
+      padding:3px 7px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.18);
+      color:rgba(232,237,245,.75);
+      transform:translateY(-1px);
+      user-select:none;
+    }
+
+    .concept .tip{
+      position:absolute;
+      left:0;
+      top:calc(100% + 10px);
+      width:min(360px, 78vw);
+      background:var(--tipBg);
+      border:1px solid var(--tipBorder);
+      border-radius:16px;
+      box-shadow:var(--tipShadow);
+      padding:12px 12px 12px 12px;
+      z-index:50;
+
+      opacity:0;
+      transform:translateY(-6px);
+      pointer-events:none;
+      transition:opacity .14s ease, transform .14s ease;
+    }
+
+    /* freccetta */
+    .concept .tip::before{
+      content:"";
+      position:absolute;
+      top:-7px;
+      left:18px;
+      width:12px;
+      height:12px;
+      background:var(--tipBg);
+      border-left:1px solid var(--tipBorder);
+      border-top:1px solid var(--tipBorder);
+      transform:rotate(45deg);
+    }
+
+    .concept:hover .tip,
+    .concept:focus .tip,
+    .concept:focus-within .tip{
+      opacity:1;
+      transform:translateY(0);
+      pointer-events:auto;
+    }
+
+    .tip .tTitle{
+      font-weight:650;
+      letter-spacing:.2px;
+      margin:0 0 6px 0;
+      font-size:14px;
+    }
+
+    .tip .tRow{
+      display:flex;
+      gap:10px;
+      margin:6px 0;
+      align-items:flex-start;
+    }
+
+    .tip .k{
+      width:84px;
+      flex:0 0 84px;
+      font-size:11px;
+      color:rgba(232,237,245,.62);
+      text-transform:uppercase;
+      letter-spacing:.7px;
+      margin-top:2px;
+    }
+
+    .tip .v{
+      font-size:13px;
+      color:rgba(232,237,245,.9);
+    }
+
+    .tip .tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-top:8px;
+    }
+
+    .tip .tag{
+      font-size:11px;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:rgba(232,237,245,.78);
+      user-select:none;
+    }
+
+    /* Mobile: niente hover -> click/tap apre (JS sotto) */
+    @media (hover: none){
+      .concept{ cursor:pointer; }
+      .concept .badge{ display:none; }
+      .concept .tip{
+        opacity:0;
+        transform:translateY(-6px);
+        pointer-events:none;
+      }
+      .concept.is-open .tip{
+        opacity:1;
+        transform:translateY(0);
+        pointer-events:auto;
+      }
+    }
+
+    @media (max-width: 900px){
+      .layout{ grid-template-columns:1fr; }
+      .index{ position:relative; top:0; }
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Novelle</h1>
-  <p>Questa sezione funge da pagina indice per le novelle. Al momento i contenuti principali della web app sono concentrati nelle pagine già presenti.</p>
-  <ul>
-    <li><a href="index.html">Torna alla home</a></li>
-    <li><a href="Pirandello.html">Visione del mondo</a></li>
-    <li><a href="Conclusione.html">Conclusione</a></li>
-  </ul>
+  <main class="layout">
+
+    <nav class="index">
+      <a href="index.html">Home</a>
+      <a href="Visione.html">Visione del mondo</a>
+      <a href="Umorismo.html">L’umorismo</a>
+      <a href="Novelle.html"><strong>Le novelle</strong></a>
+      <a href="Romanzi.html">I romanzi</a>
+      <a href="Teatro.html">Il teatro</a>
+      <a href="Conclusione.html">Conclusione</a>
+    </nav>
+
+    <section class="content">
+      <h1>Le novelle</h1>
+
+      <p>
+        Le novelle rappresentano uno dei territori più vasti e rivelatori dell’opera pirandelliana.
+        Sono 246 testi composti lungo l’intero arco della vita dell’autore, dal 1894 fino agli ultimi anni,
+        quasi un laboratorio permanente in cui Pirandello sperimenta, affina, smonta e ricostruisce la propria
+        visione del mondo.
+      </p>
+
+      <p>
+        Le prime novelle nascono dentro l’orizzonte verista. L’ambientazione è spesso siciliana,
+        paesana, concreta: zolfare, campagne arse dal sole, piccoli universi sociali dominati da regole
+        antiche e da equilibri fragili. Eppure, anche quando il quadro sembra realistico, qualcosa già si
+        incrina. La realtà non è mai semplicemente descritta, ma piegata verso il grottesco, attraversata
+        dal paradosso. In racconti come
+        <span class="concept" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Scheda concettuale: La giara">
+          La giara <span class="badge">scheda</span>
+          <span class="tip" role="dialog" aria-label="Mini scheda concettuale La giara">
+            <p class="tTitle">La giara</p>
+            <div class="tRow"><div class="k">Nucleo</div><div class="v">Forma che imprigiona la vita: l’oggetto “perfetto” diventa trappola.</div></div>
+            <div class="tRow"><div class="k">Tono</div><div class="v">Comico + crudele: riso immediato, disagio subito dopo.</div></div>
+            <div class="tRow"><div class="k">Idea</div><div class="v">Quando la forma si chiude, l’uomo resta incastrato nel ruolo (o nel vaso).</div></div>
+            <div class="tags">
+              <span class="tag">vita/forma</span><span class="tag">grottesco</span><span class="tag">meccanismo</span>
+            </div>
+          </span>
+        </span>
+        o
+        <span class="concept" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Scheda concettuale: Ciaula scopre la luna">
+          Ciaula scopre la luna <span class="badge">scheda</span>
+          <span class="tip" role="dialog" aria-label="Mini scheda concettuale Ciaula scopre la luna">
+            <p class="tTitle">Ciaula scopre la luna</p>
+            <div class="tRow"><div class="k">Nucleo</div><div class="v">Una rivelazione elementare rompe l’abitudine del dolore.</div></div>
+            <div class="tRow"><div class="k">Tono</div><div class="v">Pietà + stupore: lirismo sobrio dentro un mondo duro.</div></div>
+            <div class="tRow"><div class="k">Idea</div><div class="v">La realtà “si apre” per un istante: luce che non salva, ma fa respirare.</div></div>
+            <div class="tags">
+              <span class="tag">verismo incrinato</span><span class="tag">rivelazione</span><span class="tag">pietà</span>
+            </div>
+          </span>
+        </span>,
+        la scena quotidiana si trasforma in un meccanismo ironico che rivela l’assurdità nascosta sotto
+        la superficie delle cose.
+      </p>
+
+      <p>
+        Con il tempo, questa frattura diventa il cuore stesso della narrazione. Le novelle si fanno
+        sempre più umoristiche nel senso pirandelliano del termine: non semplice comicità, ma percezione
+        simultanea del riso e del dramma, della forma e della sua dissoluzione. Il mondo appare instabile,
+        ambiguo, spesso crudele. I personaggi vivono intrappolati in ruoli, maschere, interpretazioni che
+        li definiscono e insieme li negano. L’individuo cerca un’identità stabile, ma trova soltanto
+        prospettive contraddittorie, verità relative, immagini deformanti. Testi come
+        <span class="concept" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Scheda concettuale: La carriola">
+          La carriola <span class="badge">scheda</span>
+          <span class="tip" role="dialog" aria-label="Mini scheda concettuale La carriola">
+            <p class="tTitle">La carriola</p>
+            <div class="tRow"><div class="k">Nucleo</div><div class="v">Scarto improvviso: un gesto “assurdo” rivela l’io soffocato.</div></div>
+            <div class="tRow"><div class="k">Tono</div><div class="v">Umorismo puro: riso nervoso che scopre il dramma.</div></div>
+            <div class="tRow"><div class="k">Idea</div><div class="v">La maschera sociale regge finché non cede in un atto minimo e liberatorio.</div></div>
+            <div class="tags">
+              <span class="tag">maschera</span><span class="tag">scarto</span><span class="tag">identità</span>
+            </div>
+          </span>
+        </span>
+        o
+        <span class="concept" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Scheda concettuale: La signora Frola e il signor Ponza, suo genero">
+          La signora Frola e il signor Ponza, suo genero <span class="badge">scheda</span>
+          <span class="tip" role="dialog" aria-label="Mini scheda concettuale Frola/Ponza">
+            <p class="tTitle">Frola / Ponza</p>
+            <div class="tRow"><div class="k">Nucleo</div><div class="v">Due verità incompatibili che restano entrambe “vere” per chi le vive.</div></div>
+            <div class="tRow"><div class="k">Tono</div><div class="v">Teorema umano: freddezza apparente, dolore sotto.</div></div>
+            <div class="tRow"><div class="k">Idea</div><div class="v">La verità non è un fatto: è una posizione. E la comunità impazzisce nel volerla unica.</div></div>
+            <div class="tags">
+              <span class="tag">relativismo</span><span class="tag">prospettiva</span><span class="tag">vero</span>
+            </div>
+          </span>
+        </span>
+        mettono in scena proprio questo slittamento continuo tra apparenza e realtà.
+      </p>
+
+      <p>
+        Nelle ultime novelle, la tensione si spinge oltre i confini del realismo. La dimensione narrativa
+        assume tratti sempre più visionari, talvolta apertamente surreali. In
+        <span class="concept" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Scheda concettuale: Soffio">
+          Soffio <span class="badge">scheda</span>
+          <span class="tip" role="dialog" aria-label="Mini scheda concettuale Soffio">
+            <p class="tTitle">Soffio</p>
+            <div class="tRow"><div class="k">Nucleo</div><div class="v">Potere “impossibile” come metafora: l’io scopre il proprio abisso.</div></div>
+            <div class="tRow"><div class="k">Tono</div><div class="v">Visionario e nudo: niente consolazione, solo domanda.</div></div>
+            <div class="tRow"><div class="k">Idea</div><div class="v">Se l’identità è fragile, anche il potere lo è: alla fine si dissolve chi lo porta.</div></div>
+            <div class="tags">
+              <span class="tag">surreale</span><span class="tag">metafora</span><span class="tag">dissoluzione</span>
+            </div>
+          </span>
+        </span>,
+        il protagonista scopre di poter spegnere la vita altrui con un semplice alito: un’idea impossibile che
+        diventa strumento per interrogare il senso dell’identità e della fragilità umana. La dissoluzione finale
+        suggella simbolicamente il destino di un io che non riesce mai a possedersi davvero.
+      </p>
+
+      <p>
+        Attraverso questo percorso, le novelle non costituiscono soltanto una raccolta di storie, ma una vera
+        mappa della poetica pirandelliana. In esse si riflettono i grandi nuclei del suo pensiero: la crisi
+        dell’identità, il contrasto tra vita e forma, il relativismo delle verità, l’ironia tragica dell’esistere.
+        Ogni novella è un frammento, ma insieme tutte compongono un’unica, vasta indagine sull’uomo moderno,
+        disorientato dentro un mondo che non offre più certezze, ma soltanto prospettive mobili e instabili.
+      </p>
+
+    </section>
+
+  </main>
+
+  <script>
+    // Supporto iPad/touch: tap per aprire/chiudere la mini-scheda
+    (function(){
+      const concepts = Array.from(document.querySelectorAll('.concept'));
+
+      function closeAll(except){
+        concepts.forEach(c => { if(c !== except) c.classList.remove('is-open'); });
+      }
+
+      // Se touch device: click toggla
+      const isTouch = matchMedia('(hover: none)').matches;
+
+      if(isTouch){
+        concepts.forEach(c => {
+          c.addEventListener('click', (e) => {
+            e.preventDefault();
+            const willOpen = !c.classList.contains('is-open');
+            closeAll();
+            if(willOpen) c.classList.add('is-open');
+          });
+        });
+
+        document.addEventListener('click', (e) => {
+          if(!e.target.closest('.concept')) closeAll();
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
