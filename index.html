@@ -1,123 +1,25 @@
-<!doctype html>
-<html lang="it">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Luigi Pirandello</title>
-
-  <style>
-    :root{
-      --bg:#0f141a;
-      --card:#1d2630;
-      --cardHover:#263444;
-      --border:#324050;
-      --text:#e8edf5;
-      --muted:rgba(232,237,245,.75);
-    }
-
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
-
-    .layout{
-      max-width:1200px;
-      margin:0 auto;
-      padding:24px 16px;
-      display:grid;
-      grid-template-columns: 1fr 340px;
-      gap:18px;
-    }
-
-    .index{
-      display:grid;
-      gap:10px;
-    }
-
-    a.card{
-      display:block;
-      padding:12px 14px;
-      border-radius:14px;
-      background:var(--card);
-      color:var(--text);
-      text-decoration:none;
-      border:1px solid var(--border);
-      transition:all .12s ease;
-    }
-
-    a.card:hover{
-      background:var(--cardHover);
-      transform:translateY(-1px);
-    }
-
-    a.card span{
-      display:block;
-      font-size:13px;
-      color:var(--muted);
-      margin-top:2px;
-      padding-left:10px;
-    }
-
-    .portrait{
-      border-radius:16px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(0,0,0,.25);
-    }
-
-    .portrait img{
-      width:100%;
-      height:auto;
-      display:block;
-    }
-
-    @media (max-width: 860px){
-      .layout{grid-template-columns:1fr}
-    }
-  </style>
-</head>
-
-<body>
-  <main class="layout">
-
-    <section class="index">
-      <a class="card" href="Pirandello.html">
-        1. Visione del mondo
-      </a>
-
-      <a class="card" href="Umorismo.html">
-        2. L’umorismo
-      </a>
-
-      <a class="card" href="Novelle.html">
-        3. Le novelle
-        <span>• Il treno ha fischiato</span>
-      </a>
-
-      <a class="card" href="Romanzi.html">
-        4. I romanzi
-        <span>• Il fu Mattia Pascal</span>
-        <span>• Uno, nessuno e centomila</span>
-      </a>
-
-      <a class="card" href="Teatro.html">
-        5. Il teatro
-        <span>• Così è (se vi pare)</span>
-        <span>• Sei personaggi in cerca d’autore</span>
-      </a>
-
-      <a class="card" href="Conclusione.html">
-        6. Conclusione
-      </a>
-    </section>
-
-    <aside class="portrait">
-      <img src="assets/Pirandello-ritratto.png" alt="Luigi Pirandello">
-    </aside>
-
-  </main>
-</body>
-</html>
+<!doctype html><html lang="it"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><link rel="icon" href="data:," />
+  <title>Luigi Pirandello</title><link rel="stylesheet" href="assets/css/app.css" /></head><body>
+<header class="app-header"><div class="header-left"><a class="home-link" href="index.html">Home</a><span class="page-name">Luigi Pirandello</span></div><div class="header-controls"><button id="togglePages" class="btn" aria-label="Alterna una o due pagine" aria-pressed="false">2 pagine</button><button id="fontMinus" class="btn" aria-label="Riduci font">A-</button><span id="fontValue">18px</span><button id="fontPlus" class="btn" aria-label="Aumenta font">A+</button><button id="toggleNotes" class="btn" aria-label="Apri appunti">Appunti</button></div></header>
+<div class="layout"><aside class="left-panel"><section class="video-box"><h3>Video</h3><a class="btn" href="#" aria-label="Video">Video</a></section><nav class="global-index" aria-label="Indice generale">
+  <a href="index.html">Home</a>
+  <a href="Pirandello.html">Visione del mondo</a>
+  <a href="Umorismo.html">Umorismo</a>
+  <a href="Novelle.html">Novelle</a>
+  <a href="Romanzi.html">Romanzi</a>
+  <a href="Mattia.html">- Il fu Mattia Pascal</a>
+  <a href="Uno.html">- Uno, nessuno e centomila</a>
+  <a href="Teatro.html">Teatro</a>
+  <a href="Cosi.html">- Così è (se vi pare)</a>
+  <a href="Sei.html">- Sei personaggi in cerca d'autore</a>
+  <a href="Conclusione.html">Conclusione</a>
+</nav></aside><section class="lesson-area"><div class="lesson-pages">
+  <article class="page"><div class="page-inner">
+    <h1>Luigi Pirandello</h1>
+    <p>Home del percorso.</p>
+    <p><a href="Pirandello.html">Visione del mondo</a><br><a href="Umorismo.html">Umorismo</a><br><a href="Novelle.html">Novelle</a><br><a href="Romanzi.html">Romanzi</a><br><a href="Teatro.html">Teatro</a><br><a href="Conclusione.html">Conclusione</a></p>
+  </div></article>
+</div></section></div>
+<div id="imageViewer"><div class="viewer-card"><div class="viewer-top"><strong>Visualizzatore immagine</strong><div class="notes-actions"><button class="icon-btn" id="zoomOut">-</button><button class="icon-btn" id="zoomIn">+</button><button class="icon-btn" id="zoomReset">Reset</button><button class="icon-btn" id="closeViewer">Chiudi</button></div></div><div class="viewer-stage"><img id="viewerImg" alt="Immagine"/></div></div></div>
+<div id="notesPanel"><div class="notes-card"><div class="notes-top"><strong>Appunti</strong><div class="notes-actions"><button class="icon-btn" id="exportNotes">Export .txt</button><button class="icon-btn" id="clearNotes">Clear</button><button class="icon-btn" id="closeNotes">Close</button></div></div><textarea id="notesText"></textarea><div class="notes-top"><span>Salvataggio automatico per pagina</span></div></div></div>
+<script src="assets/js/app.js"></script></body></html>

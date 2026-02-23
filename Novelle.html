@@ -3,236 +3,47 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" href="data:," />
   <title>Pirandello — Novelle</title>
-
-  <style>
-    :root{
-      --bg:#0f141a;
-      --panel:#1d2630;
-      --border:#324050;
-      --text:#e8edf5;
-      --muted:rgba(232,237,245,.7);
-      --hover:#263444;
-
-      --tipBg:#0c1117;
-      --tipBorder:rgba(255,255,255,.14);
-      --tipShadow: 0 18px 40px rgba(0,0,0,.45);
-      --accent:rgba(232,237,245,.92);
-    }
-
-    *{box-sizing:border-box}
-
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      line-height:1.7;
-    }
-
-    .layout{
-      max-width:1200px;
-      margin:0 auto;
-      padding:28px 18px;
-      display:grid;
-      grid-template-columns: 260px 1fr;
-      gap:22px;
-    }
-
-    /* INDEX */
-    .index{
-      background:var(--panel);
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:14px;
-      height:fit-content;
-      position:sticky;
-      top:18px;
-    }
-
-    .index a{
-      display:block;
-      padding:10px 12px;
-      border-radius:12px;
-      color:var(--text);
-      text-decoration:none;
-      font-size:14px;
-      transition:.12s;
-    }
-    .index a:hover{ background:var(--hover); }
-
-    /* CONTENT */
-    .content{
-      background:var(--panel);
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:22px 26px;
-    }
-
-    h1{
-      margin:0 0 14px 0;
-      font-weight:600;
-      letter-spacing:.3px;
-    }
-
-    p{ margin:0 0 18px 0; }
-
-    /* CONCEPT TOOLTIP */
-    .concept{
-      position:relative;
-      display:inline-flex;
-      align-items:baseline;
-      gap:6px;
-      padding:0 2px;
-      border-bottom:1px dashed rgba(232,237,245,.35);
-      color:var(--accent);
-      cursor:help;
-      text-decoration:none;
-      outline:none;
-    }
-
-    .concept:focus-visible{
-      outline:2px solid rgba(232,237,245,.35);
-      outline-offset:4px;
-      border-radius:10px;
-    }
-
-    .concept .badge{
-      font-size:11px;
-      line-height:1;
-      padding:3px 7px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(0,0,0,.18);
-      color:rgba(232,237,245,.75);
-      transform:translateY(-1px);
-      user-select:none;
-    }
-
-    .concept .tip{
-      position:absolute;
-      left:0;
-      top:calc(100% + 10px);
-      width:min(360px, 78vw);
-      background:var(--tipBg);
-      border:1px solid var(--tipBorder);
-      border-radius:16px;
-      box-shadow:var(--tipShadow);
-      padding:12px 12px 12px 12px;
-      z-index:50;
-
-      opacity:0;
-      transform:translateY(-6px);
-      pointer-events:none;
-      transition:opacity .14s ease, transform .14s ease;
-    }
-
-    /* freccetta */
-    .concept .tip::before{
-      content:"";
-      position:absolute;
-      top:-7px;
-      left:18px;
-      width:12px;
-      height:12px;
-      background:var(--tipBg);
-      border-left:1px solid var(--tipBorder);
-      border-top:1px solid var(--tipBorder);
-      transform:rotate(45deg);
-    }
-
-    .concept:hover .tip,
-    .concept:focus .tip,
-    .concept:focus-within .tip{
-      opacity:1;
-      transform:translateY(0);
-      pointer-events:auto;
-    }
-
-    .tip .tTitle{
-      font-weight:650;
-      letter-spacing:.2px;
-      margin:0 0 6px 0;
-      font-size:14px;
-    }
-
-    .tip .tRow{
-      display:flex;
-      gap:10px;
-      margin:6px 0;
-      align-items:flex-start;
-    }
-
-    .tip .k{
-      width:84px;
-      flex:0 0 84px;
-      font-size:11px;
-      color:rgba(232,237,245,.62);
-      text-transform:uppercase;
-      letter-spacing:.7px;
-      margin-top:2px;
-    }
-
-    .tip .v{
-      font-size:13px;
-      color:rgba(232,237,245,.9);
-    }
-
-    .tip .tags{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      margin-top:8px;
-    }
-
-    .tip .tag{
-      font-size:11px;
-      padding:4px 8px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.06);
-      color:rgba(232,237,245,.78);
-      user-select:none;
-    }
-
-    /* Mobile: niente hover -> click/tap apre (JS sotto) */
-    @media (hover: none){
-      .concept{ cursor:pointer; }
-      .concept .badge{ display:none; }
-      .concept .tip{
-        opacity:0;
-        transform:translateY(-6px);
-        pointer-events:none;
-      }
-      .concept.is-open .tip{
-        opacity:1;
-        transform:translateY(0);
-        pointer-events:auto;
-      }
-    }
-
-    @media (max-width: 900px){
-      .layout{ grid-template-columns:1fr; }
-      .index{ position:relative; top:0; }
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/app.css" />
 </head>
-
 <body>
-  <main class="layout">
+  <header class="app-header">
+    <div class="header-left">
+      <a class="home-link" href="index.html">Home</a>
+      <span class="page-name">Novelle</span>
+    </div>
+    <div class="header-controls">
+      <button id="togglePages" class="btn" aria-label="Alterna una o due pagine" aria-pressed="false">2 pagine</button>
+      <button id="fontMinus" class="btn" aria-label="Riduci font">A-</button>
+      <span id="fontValue">18px</span>
+      <button id="fontPlus" class="btn" aria-label="Aumenta font">A+</button>
+      <button id="toggleNotes" class="btn" aria-label="Apri appunti">Appunti</button>
+    </div>
+  </header>
 
-    <nav class="index">
-      <a href="index.html">Home</a>
-      <a href="Visione.html">Visione del mondo</a>
-      <a href="Umorismo.html">L’umorismo</a>
-      <a href="Novelle.html"><strong>Le novelle</strong></a>
-      <a href="Romanzi.html">I romanzi</a>
-      <a href="Teatro.html">Il teatro</a>
-      <a href="Conclusione.html">Conclusione</a>
-    </nav>
-
-    <section class="content">
-      <h1>Le novelle</h1>
+  <div class="layout">
+    <aside class="left-panel">
+      <section class="video-box" aria-label="Video">
+        <h3>Video</h3>
+        <a class="btn" href="#" aria-label="Video">Video</a>
+      </section>
+      <nav class="global-index" aria-label="Indice generale">
+  <a href="index.html">Home</a>
+  <a href="Pirandello.html">Visione del mondo</a>
+  <a href="Umorismo.html">Umorismo</a>
+  <a href="Novelle.html">Novelle</a>
+  <a href="Romanzi.html">Romanzi</a>
+  <a href="Mattia.html">- Il fu Mattia Pascal</a>
+  <a href="Uno.html">- Uno, nessuno e centomila</a>
+  <a href="Teatro.html">Teatro</a>
+  <a href="Cosi.html">- Così è (se vi pare)</a>
+  <a href="Sei.html">- Sei personaggi in cerca d'autore</a>
+  <a href="Conclusione.html">Conclusione</a>
+</nav>
+    </aside>
+    <section class="lesson-area">
+      <div class="lesson-pages lesson-text"><h1>Le novelle</h1>
 
       <p>
         Le novelle rappresentano uno dei territori più vasti e rivelatori dell’opera pirandelliana.
@@ -337,39 +148,40 @@
         dell’identità, il contrasto tra vita e forma, il relativismo delle verità, l’ironia tragica dell’esistere.
         Ogni novella è un frammento, ma insieme tutte compongono un’unica, vasta indagine sull’uomo moderno,
         disorientato dentro un mondo che non offre più certezze, ma soltanto prospettive mobili e instabili.
-      </p>
-
+      </p></div>
     </section>
+  </div>
 
-  </main>
+  <div id="imageViewer" aria-hidden="true">
+    <div class="viewer-card">
+      <div class="viewer-top">
+        <strong>Visualizzatore immagine</strong>
+        <div class="notes-actions">
+          <button class="icon-btn" id="zoomOut" aria-label="Zoom meno">-</button>
+          <button class="icon-btn" id="zoomIn" aria-label="Zoom più">+</button>
+          <button class="icon-btn" id="zoomReset" aria-label="Reset zoom">Reset</button>
+          <button class="icon-btn" id="closeViewer" aria-label="Chiudi visualizzatore">Chiudi</button>
+        </div>
+      </div>
+      <div class="viewer-stage"><img id="viewerImg" alt="Immagine" /></div>
+    </div>
+  </div>
 
-  <script>
-    // Supporto iPad/touch: tap per aprire/chiudere la mini-scheda
-    (function(){
-      const concepts = Array.from(document.querySelectorAll('.concept'));
+  <div id="notesPanel" aria-hidden="true">
+    <div class="notes-card">
+      <div class="notes-top">
+        <strong>Appunti</strong>
+        <div class="notes-actions">
+          <button class="icon-btn" id="exportNotes" aria-label="Esporta appunti">Export .txt</button>
+          <button class="icon-btn" id="clearNotes" aria-label="Svuota appunti">Clear</button>
+          <button class="icon-btn" id="closeNotes" aria-label="Chiudi appunti">Close</button>
+        </div>
+      </div>
+      <textarea id="notesText" aria-label="Area appunti"></textarea>
+      <div class="notes-top"><span>Salvataggio automatico per pagina</span></div>
+    </div>
+  </div>
 
-      function closeAll(except){
-        concepts.forEach(c => { if(c !== except) c.classList.remove('is-open'); });
-      }
-
-      // Se touch device: click toggla
-      const isTouch = matchMedia('(hover: none)').matches;
-
-      if(isTouch){
-        concepts.forEach(c => {
-          c.addEventListener('click', (e) => {
-            e.preventDefault();
-            const willOpen = !c.classList.contains('is-open');
-            closeAll();
-            if(willOpen) c.classList.add('is-open');
-          });
-        });
-
-        document.addEventListener('click', (e) => {
-          if(!e.target.closest('.concept')) closeAll();
-        });
-      }
-    })();
-  </script>
+  <script src="assets/js/app.js"></script>
 </body>
 </html>
