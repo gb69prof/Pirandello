@@ -3,16 +3,86 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" href="data:," />
   <title>Pirandello — Romanzi</title>
-  <style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:850px;margin:0 auto;padding:30px 20px;line-height:1.6}a{color:#0b57d0}</style>
+  <link rel="stylesheet" href="assets/css/app.css" />
 </head>
 <body>
-  <h1>I romanzi</h1>
+  <header class="app-header">
+    <div class="header-left">
+      <a class="home-link" href="index.html">Home</a>
+      <span class="page-name">Romanzi</span>
+    </div>
+    <div class="header-controls">
+      <button id="togglePages" class="btn" aria-label="Alterna una o due pagine" aria-pressed="false">2 pagine</button>
+      <button id="fontMinus" class="btn" aria-label="Riduci font">A-</button>
+      <span id="fontValue">18px</span>
+      <button id="fontPlus" class="btn" aria-label="Aumenta font">A+</button>
+      <button id="toggleNotes" class="btn" aria-label="Apri appunti">Appunti</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="left-panel">
+      <section class="video-box" aria-label="Video">
+        <h3>Video</h3>
+        <a class="btn" href="#" aria-label="Video">Video</a>
+      </section>
+      <nav class="global-index" aria-label="Indice generale">
+  <a href="index.html">Home</a>
+  <a href="Pirandello.html">Visione del mondo</a>
+  <a href="Umorismo.html">Umorismo</a>
+  <a href="Novelle.html">Novelle</a>
+  <a href="Romanzi.html">Romanzi</a>
+  <a href="Mattia.html">- Il fu Mattia Pascal</a>
+  <a href="Uno.html">- Uno, nessuno e centomila</a>
+  <a href="Teatro.html">Teatro</a>
+  <a href="Cosi.html">- Così è (se vi pare)</a>
+  <a href="Sei.html">- Sei personaggi in cerca d'autore</a>
+  <a href="Conclusione.html">Conclusione</a>
+</nav>
+    </aside>
+    <section class="lesson-area">
+      <div class="lesson-pages lesson-text"><h1>I romanzi</h1>
   <p>Indice rapido dei romanzi trattati nella web app.</p>
   <ul>
     <li><a href="Mattia.html">Il fu Mattia Pascal</a></li>
     <li><a href="Uno.html">Uno, nessuno e centomila</a></li>
     <li><a href="index.html">Torna alla home</a></li>
-  </ul>
+  </ul></div>
+    </section>
+  </div>
+
+  <div id="imageViewer" aria-hidden="true">
+    <div class="viewer-card">
+      <div class="viewer-top">
+        <strong>Visualizzatore immagine</strong>
+        <div class="notes-actions">
+          <button class="icon-btn" id="zoomOut" aria-label="Zoom meno">-</button>
+          <button class="icon-btn" id="zoomIn" aria-label="Zoom più">+</button>
+          <button class="icon-btn" id="zoomReset" aria-label="Reset zoom">Reset</button>
+          <button class="icon-btn" id="closeViewer" aria-label="Chiudi visualizzatore">Chiudi</button>
+        </div>
+      </div>
+      <div class="viewer-stage"><img id="viewerImg" alt="Immagine" /></div>
+    </div>
+  </div>
+
+  <div id="notesPanel" aria-hidden="true">
+    <div class="notes-card">
+      <div class="notes-top">
+        <strong>Appunti</strong>
+        <div class="notes-actions">
+          <button class="icon-btn" id="exportNotes" aria-label="Esporta appunti">Export .txt</button>
+          <button class="icon-btn" id="clearNotes" aria-label="Svuota appunti">Clear</button>
+          <button class="icon-btn" id="closeNotes" aria-label="Chiudi appunti">Close</button>
+        </div>
+      </div>
+      <textarea id="notesText" aria-label="Area appunti"></textarea>
+      <div class="notes-top"><span>Salvataggio automatico per pagina</span></div>
+    </div>
+  </div>
+
+  <script src="assets/js/app.js"></script>
 </body>
 </html>
