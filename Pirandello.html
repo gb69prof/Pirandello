@@ -24,18 +24,12 @@
 
   <div class="layout">
     <aside class="left-panel">
-      <section class="video-box" aria-label="Video" id="videoBox" style="cursor:pointer;">
+      <section class="video-box" aria-label="Video" id="videoBox">
         <h3 id="videoToggle" style="cursor:pointer;">Video</h3>
 
-        <!-- INIZIALMENTE MOSTRO UN'IMMAGINE (ANTEPRIMA).
-             AL CLICK LA SOSTITUISCO CON L'IFRAME HEYGEN. -->
+        <!-- container per sostituire l'iframe -->
         <div id="videoContainer">
-          <img
-            id="videoPreview"
-            src="assets/Realta-Pirandello.png"
-            alt="Clicca per avviare il video"
-            style="width:100%; height:auto; display:block; border-radius:12px; cursor:pointer;"
-          />
+          <iframe src="https://app.heygen.com/embedded-player/70ac565e14cd4e8b83052dc76434961e" title="Video"></iframe>
         </div>
       </section>
 
@@ -155,48 +149,50 @@
   <script src="assets/js/app.js"></script>
   <script src="assets/js/pwa.js" defer></script>
 
-  <!-- Sostituzione immagine -> iframe HeyGen (robusta: click su tutto il box) -->
+  <!-- Click su "Video" (o su tutto il box) => sostituisce l'iframe -->
   <script>
     (function () {
-      function mount() {
+      const NEW_IFRAME = `<iframe width="560" height="315" src="https://app.heygen.com/embeds/1cb23b0e145d4742990d9d26cf3092e0" title="Pirandello - umorismo" frameborder="0" allow="encrypted-media; fullscreen;" allowfullscreen></iframe>`;
+
+      function init() {
         const box = document.getElementById("videoBox");
-        const container = document.getElementById("videoContainer");
-        if (!box || !container) return;
-
-        let loaded = false;
-
-        function loadHeyGen() {
-          if (loaded) return;
-          loaded = true;
-
-          container.innerHTML =
-            '<iframe width="560" height="315" ' +
-            'src="https://app.heygen.com/embeds/1cb23b0e145d4742990d9d26cf3092e0" ' +
-            'title="Pirandello - umorismo" frameborder="0" ' +
-            'allow="encrypted-media; fullscreen;" allowfullscreen></iframe>';
-        }
-
-        // Click su QUALSIASI punto del box "Video" (titolo, immagine, ecc.)
-        box.addEventListener("click", loadHeyGen, { passive: true });
-
-        // Accessibilità: invio/spazio sul titolo (se focusabile)
         const toggle = document.getElementById("videoToggle");
-        if (toggle) {
-          toggle.setAttribute("tabindex", "0");
-          toggle.setAttribute("role", "button");
-          toggle.addEventListener("keydown", function (e) {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              loadHeyGen();
-            }
-          });
+        const container = document.getElementById("videoContainer");
+        if (!box || !toggle || !container) return;
+
+        let swapped = false;
+
+        function swapToNewVideo() {
+          if (swapped) return;
+          swapped = true;
+          container.innerHTML = NEW_IFRAME;
         }
+
+        // Click sul titolo
+        toggle.addEventListener("click", swapToNewVideo);
+
+        // Backup: click su tutto il box (se il CSS rende difficile cliccare sul titolo)
+        box.addEventListener("click", function (e) {
+          // evito che un click dentro l'iframe vecchio (se c'è) faccia cose strane:
+          // ma se il click arriva qui, significa che non era sull'iframe.
+          swapToNewVideo();
+        });
+
+        // Accessibilità: invio/spazio sul titolo
+        toggle.setAttribute("tabindex", "0");
+        toggle.setAttribute("role", "button");
+        toggle.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            swapToNewVideo();
+          }
+        });
       }
 
       if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", mount);
+        document.addEventListener("DOMContentLoaded", init);
       } else {
-        mount();
+        init();
       }
     })();
   </script>
