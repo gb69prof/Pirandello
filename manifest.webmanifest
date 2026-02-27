@@ -1,0 +1,22 @@
+{
+  "name": "Pirandello",
+  "short_name": "Pirandello",
+  "description": "Web app didattica su Luigi Pirandello (lezioni, video, schemi).",
+  "start_url": "/Pirandello/index.html",
+  "scope": "/Pirandello/",
+  "display": "standalone",
+  "background_color": "#F2F2F2",
+  "theme_color": "#961B2B",
+  "icons": [
+    {
+      "src": "/Pirandello/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/Pirandello/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
