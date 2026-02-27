@@ -24,12 +24,18 @@
 
   <div class="layout">
     <aside class="left-panel">
+      <!-- ✅ MODIFICA: box video con poster + swap su click -->
       <section class="video-box" aria-label="Video" id="videoBox">
         <h3 id="videoToggle" style="cursor:pointer;">Video</h3>
 
-        <!-- container per sostituire l'iframe -->
-        <div id="videoContainer">
-          <iframe src="https://app.heygen.com/embedded-player/70ac565e14cd4e8b83052dc76434961e" title="Video"></iframe>
+        <div id="videoContainer" style="cursor:pointer;">
+          <!-- Poster iniziale: cliccandolo si carica l'iframe HeyGen -->
+          <img
+            id="videoPoster"
+            src="assets/Realta-Pirandello.png"
+            alt="Clicca per avviare il video"
+            style="width:100%; height:220px; object-fit:cover; border-radius:10px; display:block;"
+          />
         </div>
       </section>
 
@@ -49,70 +55,68 @@
     </aside>
 
     <section class="lesson-area">
-      <div class="lesson-pages lesson-text">
-        <article class="page" id="page1">
-          <div class="page-inner">
-            <section id="sintesi">
-              <h1>La visione del mondo</h1>
+      <div class="lesson-pages lesson-text"><article class="page" id="page1">
+        <div class="page-inner">
+          <section id="sintesi">
+            <h1>La visione del mondo</h1>
 
-              <p>Le opere di Pirandello si fondano su un presupposto filosofico: il vitalismo di Bergson. Secondo questa concezione, la vita è un divenire incessante, un flusso continuo di trasformazioni. Ogni essere passa da uno stato all’altro e chi tenta di sottrarsi a questo movimento perenne, fissandosi in una forma immobile, si condanna alla morte interiore.</p>
-              <figure class="inline-media">
-                <img class="thumb" src="assets/Filosofia-Pirandello.png" alt="Concezione filosofica" data-title="Concezione filosofica — vitalismo e flusso">
-                <figcaption>Concezione filosofica — vitalismo e flusso</figcaption>
-              </figure>
-
-              <p>Da tale visione nasce uno dei temi centrali della sua opera: l’incomunicabilità. L’uomo europeo del primo Novecento vive in una società complessa, artificiale e spesso estranea. Ha perduto le certezze legate al mondo contadino, fatto di ritmi naturali e di cose semplici che davano senso all’esistenza, sostituendole con un tempo e uno spazio innaturali, propri della modernità.</p>
-              <figure class="inline-media">
-                <img class="thumb" src="assets/Realta-Pirandello.png" alt="La realtà è multiforme" data-title="La realtà è multiforme → incomunicabilità">
-                <figcaption>La realtà è multiforme → incomunicabilità</figcaption>
-              </figure>
-
-              <p>Pirandello estende la sua critica alle strutture portanti della civiltà occidentale. La famiglia diventa luogo di incomunicabilità e rancori; il lavoro si riduce a meccanismo alienante che priva l’uomo della propria identità. Così, i pilastri della società borghese si rivelano maschere collettive che nascondono il vuoto.</p>
-              <figure class="inline-media">
-                <img class="thumb" src="assets/Societa-Pirandello.png" alt="Pirandello e la società borghese" data-title="Società borghese: famiglia e lavoro come maschere">
-                <figcaption>Società borghese: famiglia e lavoro come maschere</figcaption>
-              </figure>
-            </section>
-          </div>
-        </article>
-
-        <article class="page" id="page2">
-          <div class="page-inner">
-            <p>L’individuo si scopre frammentato: per gli altri è centomila personalità, mentre per sé stesso non è che nessuno. Ogni tentativo di fissarsi in una forma diventa una nuova maschera. È questo il destino comune: uscire dal grigiore quotidiano per scoprire di essere esclusi — condannati a restare “nessuno”.</p>
-
+            <p>Le opere di Pirandello si fondano su un presupposto filosofico: il vitalismo di Bergson. Secondo questa concezione, la vita è un divenire incessante, un flusso continuo di trasformazioni. Ogni essere passa da uno stato all’altro e chi tenta di sottrarsi a questo movimento perenne, fissandosi in una forma immobile, si condanna alla morte interiore.</p>
             <figure class="inline-media">
-              <img class="thumb" src="assets/Conseguenze-Pirandello.png" alt="Conseguenze dell’incomunicabilità" data-title="Conseguenze: solitudine e scoperta del ‘nessuno’">
-              <figcaption>Conseguenze: solitudine e scoperta del “nessuno”</figcaption>
+              <img class="thumb" src="assets/Filosofia-Pirandello.png" alt="Concezione filosofica" data-title="Concezione filosofica — vitalismo e flusso">
+              <figcaption>Concezione filosofica — vitalismo e flusso</figcaption>
             </figure>
 
+            <p>Da tale visione nasce uno dei temi centrali della sua opera: l’incomunicabilità. L’uomo europeo del primo Novecento vive in una società complessa, artificiale e spesso estranea. Ha perduto le certezze legate al mondo contadino, fatto di ritmi naturali e di cose semplici che davano senso all’esistenza, sostituendole con un tempo e uno spazio innaturali, propri della modernità.</p>
             <figure class="inline-media">
-              <img class="thumb" src="assets/Mondo-Pirandello.png" alt="Schema: visione del mondo" data-title="Schema: la visione del mondo (mappa)">
-              <figcaption>Schema: la visione del mondo (mappa)</figcaption>
+              <img class="thumb" src="assets/Realta-Pirandello.png" alt="La realtà è multiforme" data-title="La realtà è multiforme → incomunicabilità">
+              <figcaption>La realtà è multiforme → incomunicabilità</figcaption>
             </figure>
 
-            <section id="vocabolario">
-              <h2>Vocabolario dei termini chiave</h2>
-              <ul>
-                <li><strong>Vitalismo di Bergson:</strong> concezione filosofica secondo cui la vita è un flusso incessante di trasformazioni; ogni tentativo di fissarla in forme statiche conduce alla morte interiore.</li>
-                <li><strong>Flusso perenne:</strong> la vita come movimento continuo, divenire senza sosta.</li>
-                <li><strong>Incomunicabilità:</strong> impossibilità di comprendersi pienamente: ogni coscienza abita una realtà soggettiva.</li>
-                <li><strong>Maschere sociali:</strong> ruoli imposti dalla società che soffocano l’autenticità dell’individuo.</li>
-                <li><strong>Uno, nessuno e centomila:</strong> formula della condizione moderna: uno per sé, centomila per gli altri, e in fondo nessuno.</li>
-              </ul>
-            </section>
+            <p>Pirandello estende la sua critica alle strutture portanti della civiltà occidentale. La famiglia diventa luogo di incomunicabilità e rancori; il lavoro si riduce a meccanismo alienante che priva l’uomo della propria identità. Così, i pilastri della società borghese si rivelano maschere collettive che nascondono il vuoto.</p>
+            <figure class="inline-media">
+              <img class="thumb" src="assets/Societa-Pirandello.png" alt="Pirandello e la società borghese" data-title="Società borghese: famiglia e lavoro come maschere">
+              <figcaption>Società borghese: famiglia e lavoro come maschere</figcaption>
+            </figure>
+          </section>
+        </div>
+      </article>
 
-            <section id="irrinunciabili">
-              <h2>Saperi irrinunciabili</h2>
-              <ol>
-                <li>Per Pirandello la vita è flusso: fissarsi in una forma significa “morire” dentro.</li>
-                <li>L’incomunicabilità nasce dalla frantumazione della realtà in prospettive soggettive.</li>
-                <li>Famiglia e lavoro diventano maschere che imprigionano, non rifugi che proteggono.</li>
-                <li>La persona è molteplice: “centomila” per gli altri, “nessuno” per sé.</li>
-              </ol>
-            </section>
-          </div>
-        </article>
-      </div>
+      <article class="page" id="page2">
+        <div class="page-inner">
+          <p>L’individuo si scopre frammentato: per gli altri è centomila personalità, mentre per sé stesso non è che nessuno. Ogni tentativo di fissarsi in una forma diventa una nuova maschera. È questo il destino comune: uscire dal grigiore quotidiano per scoprire di essere esclusi — condannati a restare “nessuno”.</p>
+
+          <figure class="inline-media">
+            <img class="thumb" src="assets/Conseguenze-Pirandello.png" alt="Conseguenze dell’incomunicabilità" data-title="Conseguenze: solitudine e scoperta del ‘nessuno’">
+            <figcaption>Conseguenze: solitudine e scoperta del “nessuno”</figcaption>
+          </figure>
+
+          <figure class="inline-media">
+            <img class="thumb" src="assets/Mondo-Pirandello.png" alt="Schema: visione del mondo" data-title="Schema: la visione del mondo (mappa)">
+            <figcaption>Schema: la visione del mondo (mappa)</figcaption>
+          </figure>
+
+          <section id="vocabolario">
+            <h2>Vocabolario dei termini chiave</h2>
+            <ul>
+              <li><strong>Vitalismo di Bergson:</strong> concezione filosofica secondo cui la vita è un flusso incessante di trasformazioni; ogni tentativo di fissarla in forme statiche conduce alla morte interiore.</li>
+              <li><strong>Flusso perenne:</strong> la vita come movimento continuo, divenire senza sosta.</li>
+              <li><strong>Incomunicabilità:</strong> impossibilità di comprendersi pienamente: ogni coscienza abita una realtà soggettiva.</li>
+              <li><strong>Maschere sociali:</strong> ruoli imposti dalla società che soffocano l’autenticità dell’individuo.</li>
+              <li><strong>Uno, nessuno e centomila:</strong> formula della condizione moderna: uno per sé, centomila per gli altri, e in fondo nessuno.</li>
+            </ul>
+          </section>
+
+          <section id="irrinunciabili">
+            <h2>Saperi irrinunciabili</h2>
+            <ol>
+              <li>Per Pirandello la vita è flusso: fissarsi in una forma significa “morire” dentro.</li>
+              <li>L’incomunicabilità nasce dalla frantumazione della realtà in prospettive soggettive.</li>
+              <li>Famiglia e lavoro diventano maschere che imprigionano, non rifugi che proteggono.</li>
+              <li>La persona è molteplice: “centomila” per gli altri, “nessuno” per sé.</li>
+            </ol>
+          </section>
+        </div>
+      </article></div>
     </section>
   </div>
 
@@ -149,7 +153,7 @@
   <script src="assets/js/app.js"></script>
   <script src="assets/js/pwa.js" defer></script>
 
-  <!-- Click su "Video" (o su tutto il box) => sostituisce l'iframe -->
+  <!-- ✅ Script: click su titolo o poster => sostituisce con iframe HeyGen -->
   <script>
     (function () {
       const NEW_IFRAME = `<iframe width="560" height="315" src="https://app.heygen.com/embeds/1cb23b0e145d4742990d9d26cf3092e0" title="Pirandello - umorismo" frameborder="0" allow="encrypted-media; fullscreen;" allowfullscreen></iframe>`;
@@ -162,29 +166,25 @@
 
         let swapped = false;
 
-        function swapToNewVideo() {
+        function swapToHeyGen() {
           if (swapped) return;
           swapped = true;
           container.innerHTML = NEW_IFRAME;
         }
 
-        // Click sul titolo
-        toggle.addEventListener("click", swapToNewVideo);
+        // click sul titolo
+        toggle.addEventListener("click", swapToHeyGen);
 
-        // Backup: click su tutto il box (se il CSS rende difficile cliccare sul titolo)
-        box.addEventListener("click", function (e) {
-          // evito che un click dentro l'iframe vecchio (se c'è) faccia cose strane:
-          // ma se il click arriva qui, significa che non era sull'iframe.
-          swapToNewVideo();
-        });
+        // click sul poster / contenitore (zona video)
+        container.addEventListener("click", swapToHeyGen);
 
-        // Accessibilità: invio/spazio sul titolo
+        // accessibilità: invio/spazio sul titolo
         toggle.setAttribute("tabindex", "0");
         toggle.setAttribute("role", "button");
         toggle.addEventListener("keydown", function (e) {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            swapToNewVideo();
+            swapToHeyGen();
           }
         });
       }
